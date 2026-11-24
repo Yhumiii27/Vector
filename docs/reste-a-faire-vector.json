@@ -17,6 +17,10 @@
     {
       "date": "2026-11-24",
       "text": "Cadrage (L0) et socle + interface (L1) dans un dépôt local, en attente de création du dépôt GitHub."
+    },
+    {
+      "date": "2026-11-24",
+      "text": "Livraison 1 construite : socle, schéma contraint, règles pures, 28 Server Functions, tous les écrans, connecteurs simulés."
     }
   ],
   "items": [
@@ -57,7 +61,7 @@
       "progress": {
         "state": "en_cours",
         "delivery": "L1",
-        "note": ""
+        "note": "Socle, schéma, règles, tous les écrans et connecteurs simulés construits sur la branche claude/quirky-brown-c7af5m ; PR à fusionner une fois la CI verte (DN-1 attendue pour le contrôle Norma)."
       }
     },
     {

@@ -8,7 +8,7 @@ import { getLang, getTheme } from '@/server/session';
 
 export const metadata: Metadata = {
   title: 'Vector',
-  description: 'Vector — directory, accesses and central sign-in of the EPC2I applications',
+  description: 'Vector — domestic and international shipments of the EPC2I group',
 };
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {

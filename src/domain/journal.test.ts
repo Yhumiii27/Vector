@@ -8,7 +8,7 @@ describe('journal filters', () => {
     });
     expect(parseJournalFilters({ area: 'Nope', from: '2026-13-45', page: '-1', person: 'x' })).toMatchObject({ area: null, from: null, page: 1, personId: null });
     expect(parseJournalFilters(new URLSearchParams('area=Sign-in'))).toMatchObject({ area: 'Sign-in' });
-    expect(journalQuery({ q: 'a b', area: 'Shipments', page: 1 })).toBe('?q=a+b&area=Access');
+    expect(journalQuery({ q: 'a b', area: 'Shipments', page: 1 })).toBe('?q=a+b&area=Shipments');
     expect(journalQuery({})).toBe('');
   });
 });
@@ -21,6 +21,6 @@ describe('journal CSV', () => {
     expect(csvCell(null)).toBe('');
     const csv = journalCsv([{ occurredAt: new Date('2026-11-24T10:00:00Z'), actorName: 'Admin', actorRole: 'admin', area: 'Shipments', objectRef: 'Person a@b.c', change: 'activated', reason: null }]);
     expect(csv.startsWith('﻿date;acteur;role_acteur;domaine;objet;changement;motif\r\n')).toBe(true);
-    expect(csv).toContain('2026-11-24T10:00:00.000Z;Admin;admin;Access;Person a@b.c;activated;\r\n');
+    expect(csv).toContain('2026-11-24T10:00:00.000Z;Admin;admin;Shipments;Person a@b.c;activated;\r\n');
   });
 });

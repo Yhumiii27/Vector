@@ -19,9 +19,15 @@ award, booking and cut-offs, export customs and compliance (dual use, sanctions)
 - **Delivery 0 (framing) is done** (24 Nov 2026): `docs/BENCHMARK.md`, `docs/spec/00`–`07`, `docs/DECISIONS.md` (questions
   with a default answer, applied until answered), `docs/PLAN.md`, `docs/DONNEES.md` + `docs/donnees/*.csv`, `docs/DEMANDES.md`
   (drafts only: nothing is sent to another tool without the owner's « validé »).
-- **Delivery 1 (platform and the whole interface on fictitious demo data)**: see `docs/DELIVERY-1.md`.
-- **The GitHub repository does not exist yet**: the work is a local repository; the owner creates `Yhumiii27/Vector` (or
-  the name chosen at N-1) and pushes it.
+- **Delivery 1 (platform and the whole interface on fictitious demo data) is built** (`docs/DELIVERY-1.md`, `docs/SOCLE.md`):
+  platform from Clavis `main` `5a6026b`, sign-in through Clavis from Crucible, shell from Arche; schema `src/server/db/schema/`
+  (every column constrained); pure rules `src/domain/` (`shipment-state.ts`, `packing.ts`, `incoterms.ts`, `documents.ts`,
+  `eta.ts`, `costs.ts`, `quotes.ts`, `compliance.ts`, `claims.ts`, `kpi.ts`); reads `src/server/dal/world.ts` (`loadWorld`:
+  the visibility rule, every figure computed on read); writes `src/features/shipping/actions.ts` (through
+  `src/server/shipping/write.ts`); side-panel forms `src/features/shipping/forms.tsx`; reference queries of the publications
+  `src/server/publications/definitions.ts`; simulated connectors `src/server/integrations/` (outbox, tracking).
+- Repository `Yhumiii27/vector` (created by the owner, 24 Nov 2026); delivery 1 is on the branch `claude/quirky-brown-c7af5m`.
+- `npm run norma:check` fails until Norma registers `vector` (request DN-1 in `docs/DEMANDES.md`); never bypass it.
 - Owner's answers: questionnaire built from `scripts/questionnaire/` by `node norma/outils/questionnaire/build.mjs`
   (`.artifacts/decisions-vector.html`, to be published as an artifact); read its database (collection `answers`) before each
   delivery and apply the answers to `docs/DECISIONS.md`.
@@ -42,3 +48,13 @@ award, booking and cut-offs, export customs and compliance (dual use, sanctions)
 - Demo data are fictitious: never a real person, company, mine or project name.
 - Ports on the owner's Mac: **3900** (Vector) and **3910** (tests). Never use or kill another tool's port of Norma's registry.
 - Commit messages in English.
+
+## Setup and checks
+
+```bash
+npm ci && npm run db:local && npm run db:migrate   # .env.local: see .env.example (database vector_dev, PostgreSQL only)
+npx next typegen && npm run typecheck && npm run lint && npm test
+npm run dev                                         # http://localhost:3900 (demo: "View as")
+VECTOR_DIST_DIR=.next-ci npm run build && VECTOR_DIST_DIR=.next-ci npx next start --port 3910 & npm run test:smoke
+node norma/outils/questionnaire/build.mjs           # .artifacts/decisions-vector.html (owner's questionnaire)
+```

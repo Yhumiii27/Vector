@@ -15,3 +15,18 @@ export function fmtDate(v: string | Date | null | undefined, lang: Lang): string
 
 /** "22/10/2026 14:05". */
 export const fmtInstant = (d: Date, lang: Lang) => `${fmtDate(d, lang)} ${d.toLocaleTimeString(locale(lang), { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' })}`;
+
+/** "12 345,6" / "12,345.6". */
+export const fmtNum = (n: number | null | undefined, lang: Lang, digits = 1) => (n == null ? '—' : n.toLocaleString(locale(lang), { maximumFractionDigits: digits }));
+
+/** "12 345 €" / "USD 1,250". */
+export function fmtMoney(n: number | null | undefined, currency: string, lang: Lang): string {
+  if (n == null) return '—';
+  return n.toLocaleString(locale(lang), { style: 'currency', currency, maximumFractionDigits: 0 });
+}
+
+/** "+3 d" / "−2 d" for a number of days. */
+export const fmtDays = (n: number | null | undefined) => (n == null ? '—' : `${n > 0 ? '+' : n < 0 ? '−' : ''}${Math.abs(n)} d`);
+
+/** "45 %" from a share. */
+export const fmtPct = (n: number | null | undefined, lang: Lang) => (n == null ? '—' : `${(n * 100).toLocaleString(locale(lang), { maximumFractionDigits: 1 })} %`);

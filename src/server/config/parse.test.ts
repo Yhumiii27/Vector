@@ -40,7 +40,7 @@ describe('parseConfig', () => {
 
   it('invalid values are errors naming the variable, never its value; defaults are kept', () => {
     const r = parse({ VECTOR_SEED: 'sample', LOG_LEVEL: 'chatty', VECTOR_CLOCK: 'tomorrow', NEXT_PUBLIC_CODEX_URL: 'ftp://codex', VECTOR_SESSION_SECRET: 'short-secret' });
-    expect(vars(r.errors).sort()).toEqual(['VECTOR_CLOCK', 'VECTOR_SEED', 'VECTOR_SESSION_SECRET', 'LOG_LEVEL', 'NEXT_PUBLIC_CODEX_URL']);
+    expect(vars(r.errors).sort()).toEqual(['LOG_LEVEL', 'NEXT_PUBLIC_CODEX_URL', 'VECTOR_CLOCK', 'VECTOR_SEED', 'VECTOR_SESSION_SECRET']);
     expect(formatIssues(r.errors).join(' ')).not.toContain('short-secret');
     expect(r.config.seed).toBe('demo');
     expect(r.config.log.level).toBe('info');

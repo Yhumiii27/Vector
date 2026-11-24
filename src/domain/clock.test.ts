@@ -20,8 +20,8 @@ describe('business clock', () => {
 
   it('pinned clock: the date is fixed, the time of day stays real (Paris)', () => {
     expect(todayOf(DEMO_CLOCK, new Date('2030-01-01T12:00:00Z'))).toBe(DEMO_TODAY_ISO);
-    // 16 Oct 2026 11:42 in Paris (CEST) → 22 Oct 2026 11:42 Paris = 09:42Z.
-    expect(businessNowOf(DEMO_CLOCK, new Date('2026-10-16T09:42:00Z')).toISOString()).toBe('2026-10-22T09:42:00.000Z');
+    // 16 Oct 2026 11:42 in Paris (CEST) → 24 Nov 2026 11:42 Paris (CET) = 10:42Z.
+    expect(businessNowOf(DEMO_CLOCK, new Date('2026-10-16T09:42:00Z')).toISOString()).toBe('2026-11-24T10:42:00.000Z');
   });
 
   it('working days: a weekend counts as its Friday; adding working days skips weekends', () => {
