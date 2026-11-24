@@ -1,0 +1,18 @@
+{
+  "titre": "Décisions Vector",
+  "sousTitre": "Vector · expéditions nationales et internationales · questionnaire du responsable produit",
+  "introduction": "Vector (nom de travail) sera l’outil du responsable des expéditions du groupe : demandes d’expédition, colisage, appels d’offres aux transitaires et transporteurs, réservation, douane export et conformité, documents (déposés dans Codex), suivi et ETA, incidents et réclamations, coûts et performance des transporteurs. Chaque question porte la proposition par défaut (★), appliquée tant qu’il n’y a pas d’autre réponse. Choisissez une réponse, ajoutez une note si besoin : tout est enregistré à mesure et relu par Claude avant chaque livraison. Le détail est dans le dépôt Vector : docs/spec/ et docs/DECISIONS.md.",
+  "decideTitre": "Déjà décidé",
+  "decide": [
+    "P-1 · Un nouvel outil de la suite pour le responsable des expéditions (nationales et internationales) du groupe.",
+    "P-2 · Règles communes de la suite (Norma) : PostgreSQL commun, schéma propre, vues pub_ définies par Matrix, droits lus dans Clavis, documents dans Codex.",
+    "P-3 · Charte Nocturne (Norma), thèmes sombre et clair, français par défaut.",
+    "P-4 · L’interface complète et le suivi des expéditions sont construits dès la première version, sur des données de démonstration fictives."
+  ],
+  "groupes": [
+    ["prio", "À traiter en priorité"], ["transition", "Transition depuis Keystone"], ["operations", "Demandes, transport et suivi"],
+    ["douane", "Douane, conformité et documents"], ["couts", "Coûts et performance"], ["integrations", "Connecteurs et services extérieurs"],
+    ["droits", "Utilisateurs et droits"], ["data", "Données à fournir"]
+  ],
+  "sortie": ".artifacts/decisions-vector.html"
+}

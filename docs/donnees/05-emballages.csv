@@ -1,0 +1,2 @@
+code;type(crate|box|pallet|skid|drum|container);longueur_cm;largeur_cm;hauteur_cm;tare_kg;charge_max_kg;norme(HPE|NIMP15|autre)
+CAISSE-M;crate;200;120;120;95;2000;NIMP15

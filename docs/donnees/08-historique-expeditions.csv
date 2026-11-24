@@ -1,0 +1,2 @@
+reference;date_demande;depart;destination;pays_iso2;mode;transitaire;poids_brut_kg;volume_m3;colis;cout_eur;etd;atd;eta;ata;incident
+EX-0001;2026-01-05;Atelier exemple;Mine exemple;ZZ;sea;Transitaire exemple;12000;48;6;9800;2026-01-20;2026-01-22;2026-02-25;2026-02-27;non

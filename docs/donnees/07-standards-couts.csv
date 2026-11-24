@@ -1,0 +1,2 @@
+mode(road|sea|air|express|rail);zone(europe|afrique|ameriques|asie|oceanie|moyen_orient);eur_par_kg_taxable;source;date
+sea;afrique;0.45;moyenne 2026;2026-11-01

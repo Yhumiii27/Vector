@@ -1,0 +1,2 @@
+type_flux(vente_projet|piece_rechange|achat|retour|transfert_interne);destination(ue|hors_ue|pays_iso2);incoterm;lieu_type;commentaire
+vente_projet;hors_ue;DAP;site du client;

@@ -1,0 +1,2 @@
+raison_sociale;pays_iso2;type(carrier|forwarder|express|packer|insurer|agent|customs_broker);modes(road,sea,air,rail,express);zones;agrements;contact_fonction;contact_email_pro;contact_telephone
+Transports Exemple SAS;FR;carrier;road;Europe;OEA;Exploitation;exploitation@transports-exemple.example;+33 0 00 00 00 00

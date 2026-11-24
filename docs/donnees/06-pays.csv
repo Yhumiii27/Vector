@@ -1,0 +1,2 @@
+pays_iso2;nom;ue(oui|non);risque(none|watch|restricted|embargoed);accord_origine(EUR.1|EUR-MED|declaration|aucun);documents_exiges;commentaire
+ZZ;Pays exemple;non;watch;aucun;certificat d origine legalise;

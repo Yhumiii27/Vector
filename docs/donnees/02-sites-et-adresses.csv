@@ -1,0 +1,2 @@
+code_site_matrix;nom;type(site_groupe|adresse);adresse;pays_iso2;horaires;quai(oui|non);levage_max_t;latitude;longitude
+atelier-exemple;Atelier exemple;site_groupe;1 rue Exemple 00000 Ville;FR;7h-16h;oui;20;48.5;7.5
