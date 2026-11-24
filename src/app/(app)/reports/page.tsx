@@ -32,7 +32,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHeader screen="reports" crumbs={['Analysis']}
-        primary={<ActionLink href="/export/shipments" label={t('Shipments (CSV)')} icon="download" download />}
+        primary={<ActionLink href="/export/shipments" label={t('Shipments (CSV)')} icon="download" variant="primary" download />}
         actions={<>
           <ActionLink href="/export/requests" label={t('Requests (CSV)')} icon="download" download />
           {values && <ActionLink href="/export/costs" label={t('Costs (CSV)')} icon="download" download />}

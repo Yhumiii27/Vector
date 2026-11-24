@@ -41,7 +41,7 @@ export default async function ShipmentsPage({ searchParams }: { searchParams: Pr
   const exportHref = `/export/shipments`;
   return (
     <>
-      <PageHeader screen="shipments" crumbs={['Shipping']} primary={<ActionLink href="/requests" label={t('Shipment requests')} />} actions={<ActionLink href={exportHref} label={t('Export (CSV)')} icon="download" download />} />
+      <PageHeader screen="shipments" crumbs={['Shipping']} primary={<ActionLink href="/requests" label={t('Shipment requests')} variant="primary" />} actions={<ActionLink href={exportHref} label={t('Export (CSV)')} icon="download" download />} />
       <SectionCard>
         <form method="get" className={s.toolbar}>
           <Field label={t('State')}>

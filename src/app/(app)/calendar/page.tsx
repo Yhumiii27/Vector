@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import { PageHeader } from '@/components/app/shell/page-header';
 import { SectionCard } from '@/components/app/SectionCard';
-import { ActionLink } from '@/components/app/ActionForm';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react/dist/ssr';
+import { ButtonLink } from '@norma/charte/ds/Button';
+import { FilterBar, FilterGroup, FilterNote } from '@norma/charte/ds/FilterBar';
 import s from '@/features/shipping/pages.module.css';
 import { addDaysIso, dowOfIso } from '@/lib/dates';
 import { businessToday } from '@/server/clock';
@@ -38,7 +40,20 @@ export default async function CalendarPage({ searchParams }: { searchParams: Pro
   const cls = { dep: s.evDep, arr: s.evArr, cut: s.evCut, need: s.evNeed };
   return (
     <>
-      <PageHeader screen="calendar" crumbs={['Steering']} primary={<ActionLink href={`/calendar?month=${prev}`} label={t('Previous month')} />} actions={<><ActionLink href="/calendar" label={t('This month')} /><ActionLink href={`/calendar?month=${next}`} label={t('Next month')} /></>} />
+      <PageHeader
+        screen="calendar"
+        crumbs={['Steering']}
+        toolbar={
+          <FilterBar>
+            <FilterGroup>
+              <ButtonLink href={`/calendar?month=${prev}`} size="sm" variant="secondary" icon={CaretLeft}>{t('Previous month')}</ButtonLink>
+              <ButtonLink href="/calendar" size="sm" variant="secondary">{t('This month')}</ButtonLink>
+              <ButtonLink href={`/calendar?month=${next}`} size="sm" variant="secondary" iconRight={CaretRight}>{t('Next month')}</ButtonLink>
+            </FilterGroup>
+            <FilterNote>{title}</FilterNote>
+          </FilterBar>
+        }
+      />
       <SectionCard title={title}>
         <div className={s.calendar}>
           {heads.map((h) => <div key={h} className={s.dayHead}>{h}</div>)}

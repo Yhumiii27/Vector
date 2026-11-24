@@ -1,7 +1,7 @@
-.page { max-width: 1000px; margin: 0 auto; padding: var(--space-8); display: flex; flex-direction: column; gap: var(--space-6); font-size: 12.5px; }
+.page { max-width: 1000px; margin: 0 auto; padding: var(--space-8); display: flex; flex-direction: column; gap: var(--space-6); font-size: var(--text-control); }
 .head { display: flex; justify-content: space-between; gap: var(--space-8); border-bottom: 1px solid var(--color-divider); padding-bottom: var(--space-4); }
 .kind { text-transform: uppercase; letter-spacing: 0.06em; color: var(--color-neutral-400); font-size: 11px; }
-.title { margin: var(--space-1) 0; font-size: 22px; }
+.title { margin: var(--space-1) 0; font-size: var(--text-kpi); }
 .meta { display: grid; grid-template-columns: auto 1fr; gap: var(--space-1) var(--space-4); margin: 0; }
 .meta dt { color: var(--color-neutral-400); }
 .meta dd { margin: 0; }
@@ -11,6 +11,6 @@
 .note { color: var(--color-neutral-300); }
 .marks { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
 .mark { border: 2px solid var(--color-text); padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); break-inside: avoid; }
-.markRef { font-size: 24px; font-weight: 700; }
+.markRef { font-size: var(--text-kpi-lg); font-weight: 700; }
 .warn { font-weight: 700; color: var(--color-accent); }
 .foot { color: var(--color-neutral-400); font-size: 11px; border-top: 1px solid var(--color-divider); padding-top: var(--space-3); }

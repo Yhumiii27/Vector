@@ -25,6 +25,16 @@ async function main(): Promise<void> {
   const csp = home.headers.get('content-security-policy') ?? '';
   check(csp.includes("default-src 'self'") && csp.includes('nonce-'), 'the page carries a Content-Security-Policy with a nonce');
   check(home.headers.get('x-content-type-options') === 'nosniff', 'X-Content-Type-Options: nosniff');
+  // Norma 2.0 common shell (norma/charte/COQUE.md): the language / display pair stacked, in the page header and the top bar
+  // (≤ 1024 px) and never in the sidebar, the menu button of the top bar, the page's only <h1>, no tool name in the breadcrumb.
+  const prefs = home.body.match(/class="coque-prefs"/g) ?? [];
+  const aside = /<aside[^>]*id="coque-sidebar"[\s\S]*?<\/aside>/.exec(home.body)?.[0] ?? '';
+  check(prefs.length === 2 && home.body.includes('aria-label="Langue"') && home.body.includes('aria-label="Affichage"'), 'language over display pair, in the page header and the top bar');
+  check(aside.length > 0 && !aside.includes('coque-prefs') && aside.includes('coque-pagesearch'), 'the sidebar has the ⌘K page search and no language / display pair');
+  check(home.body.includes('id="coque-nav-toggle"') && home.body.includes('aria-controls="coque-sidebar"') && home.body.includes('>Menu<'), 'menu button of the top bar (compact layout)');
+  check((home.body.match(/<h1[ >]/g) ?? []).length === 1 && home.body.includes('class="coque-title"'), 'one page title <h1>');
+  const crumb = /class="coque-crumb">([\s\S]*?)<\/div>/.exec(home.body)?.[1] ?? '';
+  check(!crumb.includes('Vector'), 'the breadcrumb does not repeat the tool name');
 
   for (const [path, text] of [
     ['/requests', 'Demandes d’expédition'], ['/shipments', 'SH-2026-0104'], ['/shipments?state=all', 'SH-2026-0111'], ['/rfq', 'RFQ-2026-0105'],

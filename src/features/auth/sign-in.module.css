@@ -34,14 +34,14 @@
 }
 
 .wordmark {
-  font-size: 16px;
+  font-size: var(--text-brand);
   font-weight: 500;
   letter-spacing: -0.01em;
 }
 
 .lead {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--text-ui);
   line-height: 1.5;
   color: var(--color-neutral-400);
 }
@@ -51,7 +51,7 @@
   display: flex;
   gap: 8px;
   align-items: flex-start;
-  font-size: 13px;
+  font-size: var(--text-ui);
   line-height: 1.5;
   padding: 10px 12px;
   border-radius: var(--radius-md);

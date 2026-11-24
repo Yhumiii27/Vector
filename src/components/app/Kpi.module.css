@@ -2,11 +2,11 @@
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--kpi-min, 150px), 1fr)); gap: 10px; }
 
 :global(.card).tile { gap: 3px; padding: 12px 14px; }
-.label { font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400); }
-.value { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; color: var(--kpi-color, var(--color-text)); }
-.lg .value { font-size: 24px; }
-.sub { font-size: 11.5px; color: var(--color-neutral-400); text-wrap: pretty; }
-.lg .sub { font-size: 12px; }
+.label { font-size: var(--text-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400); }
+.value { font-size: var(--text-kpi); font-weight: 500; letter-spacing: -0.02em; color: var(--kpi-color, var(--color-text)); }
+.lg .value { font-size: var(--text-kpi-lg); }
+.sub { font-size: var(--text-caption); color: var(--color-neutral-400); text-wrap: pretty; }
+.lg .sub { font-size: var(--text-small); }
 .subIcon { display: flex; gap: 5px; align-items: center; }
 
 /* Trend card (Trends 1741–1747) */
@@ -24,12 +24,12 @@
 }
 :global(.card).trendOn { background: var(--color-accent-900); box-shadow: inset 0 0 0 1px var(--color-accent-700); }
 :global(.card).trend:hover { color: var(--color-text); }
-.trendHead { display: flex; justify-content: space-between; gap: 8px; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400); }
+.trendHead { display: flex; justify-content: space-between; gap: 8px; font-size: var(--text-eyebrow); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-neutral-400); }
 .trendTarget { text-transform: none; letter-spacing: 0; }
 .trendRow { display: flex; align-items: flex-end; gap: 10px; }
-.trendValue { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; }
+.trendValue { font-size: var(--text-kpi); font-weight: 500; letter-spacing: -0.02em; }
 .trendSpark { margin-left: auto; }
-.trendDelta { font-size: 11.5px; color: var(--color-neutral-300); }
+.trendDelta { font-size: var(--text-caption); color: var(--color-neutral-300); }
 .worse { color: var(--color-accent-300); }
 
 /* Reconciliation step (Budget setup 393–397) */

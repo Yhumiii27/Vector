@@ -31,8 +31,8 @@ démonstration **entièrement fictif**. Branche `claude/quirky-brown-c7af5m` du 
 fumée `npm run test:smoke` (38 contrôles : chaque écran, chaque onglet, impression, exports, droits du lecteur et du demandeur)
 sur `next start --port 3910` et la base `vector_dev`.
 
-**`npm run norma:check` échoue** tant que Norma n'a pas inscrit `vector` à son registre (demande DN-1) : la copie est intacte,
-seul l'outil est inconnu du registre. Le contrôle n'est pas contourné.
+`npm run norma:check` passe depuis Norma 2.1.0, qui inscrit `vector` à son registre (demande DN-1, faite le 24 nov. 2026).
+La coque suit ensuite celle de Norma 2.0 (`norma/charte/COQUE.md`, point VE-N01 du reste à faire de Norma).
 
 ## 4. Limites connues
 

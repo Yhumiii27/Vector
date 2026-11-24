@@ -31,7 +31,7 @@ export default async function JournalPage({ searchParams }: { searchParams: Prom
       <PageHeader
         screen="journal"
         crumbs={['Administration']}
-        primary={<ButtonLink href={exportHref} prefetch={false} icon={DownloadSimple} variant="primary">{t('Export (CSV)')}</ButtonLink>}
+        primary={<ButtonLink href={exportHref} prefetch={false} icon={DownloadSimple} variant="primary" size="sm">{t('Export (CSV)')}</ButtonLink>}
       />
       <SectionCard title={t('Filters')} gap={10}>
         <form className={s.toolbar} method="get">

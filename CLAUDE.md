@@ -20,19 +20,26 @@ award, booking and cut-offs, export customs and compliance (dual use, sanctions)
   with a default answer, applied until answered), `docs/PLAN.md`, `docs/DONNEES.md` + `docs/donnees/*.csv`, `docs/DEMANDES.md`
   (drafts only: nothing is sent to another tool without the owner's « validé »).
 - **Delivery 1 (platform and the whole interface on fictitious demo data) is built** (`docs/DELIVERY-1.md`, `docs/SOCLE.md`):
-  platform from Clavis `main` `5a6026b`, sign-in through Clavis from Crucible, shell from Arche; schema `src/server/db/schema/`
+  platform from Clavis `main` `5a6026b`, sign-in through Clavis from Crucible, shell of Norma 2.0 (below); schema `src/server/db/schema/`
   (every column constrained); pure rules `src/domain/` (`shipment-state.ts`, `packing.ts`, `incoterms.ts`, `documents.ts`,
   `eta.ts`, `costs.ts`, `quotes.ts`, `compliance.ts`, `claims.ts`, `kpi.ts`); reads `src/server/dal/world.ts` (`loadWorld`:
   the visibility rule, every figure computed on read); writes `src/features/shipping/actions.ts` (through
   `src/server/shipping/write.ts`); side-panel forms `src/features/shipping/forms.tsx`; reference queries of the publications
   `src/server/publications/definitions.ts`; simulated connectors `src/server/integrations/` (outbox, tracking).
 - Repository `Yhumiii27/vector` (created by the owner, 24 Nov 2026); delivery 1 is on the branch `claude/quirky-brown-c7af5m`.
-- `npm run norma:check` fails until Norma registers `vector` (request DN-1 in `docs/DEMANDES.md`); never bypass it.
+- Norma 2.1.0 registers `vector` (request DN-1 done, 24 Nov 2026): `npm run norma:check` passes and runs in CI.
+- **Common shell of Norma 2.0** (`norma/charte/COQUE.md`, binding; item VE-N01): `AppShell` + `MobileTopBar` (menu button up
+  to 1024 px) in `src/app/(app)/layout.tsx`, `Sidebar` / `PageSearch` / `NavSection` / `NavEntry` of `@norma/charte/ds` in
+  `src/components/app/shell/sidebar.tsx`, `PageHeader` of the charter (breadcrumb without "Vector", one 26 px `<h1>`, actions
+  with the main one rightmost and the "Actions" menu beyond three, `useHeaderMenu`) in `page-header.tsx`, and the language /
+  display pair `PrefsStack` (`prefs.tsx`: FR | EN over dark | light, same size) as the last element of every page header and
+  of the top bar, nowhere else. `touch.css` then `coque.css` are imported after `nocturne.css`; period navigation and
+  filters go in the header's `toolbar` (`FilterBar`); sizes come from the `--text-*` tokens.
 - Owner's answers: questionnaire built from `scripts/questionnaire/` by `node norma/outils/questionnaire/build.mjs`
   (`.artifacts/decisions-vector.html`, to be published as an artifact); read its database (collection `answers`) before each
   delivery and apply the answers to `docs/DECISIONS.md`.
-- Remaining work: one list for the whole suite in Norma (`reste-a-faire/vector.json`, draft `docs/reste-a-faire-vector.json`
-  until Norma adds it, request DN-1).
+- Remaining work: one list for the whole suite in Norma (`reste-a-faire/vector.json` in `Yhumiii27/Norma`), shown on the
+  global page https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf; Vector keeps no list of its own.
 
 ## Rules specific to Vector
 

@@ -21,9 +21,9 @@ button:global(.card).clickable { border: 0; }
 .stacked { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .iconic { display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
 .titleCol { display: flex; flex-direction: column; margin-right: auto; min-width: 0; }
-.subtitle { font-size: 12px; color: var(--color-neutral-400); text-wrap: pretty; }
-.hint { font-size: 12px; color: var(--color-neutral-400); display: inline-flex; align-items: center; gap: 6px; }
-.icon { color: var(--color-accent); font-size: 16px; margin-top: 2px; flex: none; }
+.subtitle { font-size: var(--text-small); color: var(--color-neutral-400); text-wrap: pretty; }
+.hint { font-size: var(--text-small); color: var(--color-neutral-400); display: inline-flex; align-items: center; gap: 6px; }
+.icon { color: var(--color-accent); font-size: var(--text-brand); margin-top: 2px; flex: none; }
 
 /* page layout helpers */
 .stack { display: flex; flex-direction: column; gap: var(--stack-gap, 14px); }
