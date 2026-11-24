@@ -1,0 +1,99 @@
+# Continuous integration (derived from Keystone's, R-016): on every pull request and every push to main — install, route
+# types, typecheck, lint, unit tests on a real PostgreSQL 16 (Vector runs on PostgreSQL only: each test file creates its own
+# database), the migration and the demo seed of a schema shaped like the shared EPC2I server (`npm run db:local`), the
+# production build, then the smoke test against `next start`. 
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Typecheck, lint, tests, migration, build, smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      VECTOR_TEST_ADMIN_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+      VECTOR_ADMIN_URL: postgres://postgres:postgres@127.0.0.1:5432/postgres
+      VECTOR_DIST_DIR: .next-ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Norma (shared rules, charter, dependencies)
+        run: node norma/outils/norma.mjs verifier
+
+      - name: Install
+        run: npm ci
+
+      - name: Route types (LayoutProps / PageProps)
+        run: npx next typegen
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      # The backup test runs pg_dump / pg_restore: the runner's newer client writes settings PostgreSQL 16 refuses
+      # (SET transaction_timeout); use the 16 client, as the deployment image does (Crucible's fix).
+      - name: PostgreSQL 16 client tools
+        run: |
+          sudo apt-get install -y postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install -y postgresql-client-16
+          echo /usr/lib/postgresql/16/bin >> "$GITHUB_PATH"
+
+      - name: Unit tests (PostgreSQL)
+        run: npm test
+
+      - name: Database (schema vector, role vector_app), migration and demo seed
+        run: |
+          npm run db:local
+          npm run db:migrate
+        env:
+          DATABASE_URL: postgres://vector_app:vector-dev@127.0.0.1:5432/vector_dev
+          VECTOR_SEED: demo
+
+      - name: Build
+        run: npm run build
+
+      - name: Smoke test (production server)
+        run: |
+          npx next start --port 3910 > next-start.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:3910/api/health > /dev/null && break; sleep 1; done
+          npm run test:smoke
+        env:
+          DATABASE_URL: postgres://vector_app:vector-dev@127.0.0.1:5432/vector_dev
+          VECTOR_CLOCK: '2026-11-24'
+          VECTOR_SMOKE_URL: http://127.0.0.1:3910
+
+      - name: Server log
+        if: failure()
+        run: cat next-start.log || true
