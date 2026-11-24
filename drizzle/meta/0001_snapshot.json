@@ -1,0 +1,3808 @@
+{
+  "id": "58959c2b-6c55-499f-9540-7979d2a32705",
+  "prevId": "37895cbf-ac11-47f9-9066-34c8e5a755e5",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "vector.app_settings": {
+      "name": "app_settings",
+      "schema": "vector",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_by_name": {
+          "name": "updated_by_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "app_settings_key_check": {
+          "name": "app_settings_key_check",
+          "value": "\"vector\".\"app_settings\".\"key\" ~ '^[a-z][a-z0-9_.-]{1,63}$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.audit_entries": {
+      "name": "audit_entries",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "occurred_at": {
+          "name": "occurred_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "actor_user_id": {
+          "name": "actor_user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actor_name": {
+          "name": "actor_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "actor_role": {
+          "name": "actor_role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "object_ref": {
+          "name": "object_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "change": {
+          "name": "change",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "area": {
+          "name": "area",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "entity_type": {
+          "name": "entity_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "entity_id": {
+          "name": "entity_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "before": {
+          "name": "before",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "after": {
+          "name": "after",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "audit_entries_occurred_at_idx": {
+          "name": "audit_entries_occurred_at_idx",
+          "columns": [
+            {
+              "expression": "occurred_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "audit_entries_entity_idx": {
+          "name": "audit_entries_entity_idx",
+          "columns": [
+            {
+              "expression": "entity_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "audit_entries_actor_user_id_users_id_fk": {
+          "name": "audit_entries_actor_user_id_users_id_fk",
+          "tableFrom": "audit_entries",
+          "columnsFrom": [
+            "actor_user_id"
+          ],
+          "tableTo": "users",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "audit_entries_text_check": {
+          "name": "audit_entries_text_check",
+          "value": "btrim(\"vector\".\"audit_entries\".\"actor_name\") <> '' and btrim(\"vector\".\"audit_entries\".\"object_ref\") <> '' and btrim(\"vector\".\"audit_entries\".\"change\") <> '' and btrim(\"vector\".\"audit_entries\".\"area\") <> ''"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.counters": {
+      "name": "counters",
+      "schema": "vector",
+      "columns": {
+        "prefix": {
+          "name": "prefix",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year": {
+          "name": "year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value": {
+          "name": "value",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "counters_prefix_year_pk": {
+          "name": "counters_prefix_year_pk",
+          "columns": [
+            "prefix",
+            "year"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "counters_prefix_check": {
+          "name": "counters_prefix_check",
+          "value": "\"vector\".\"counters\".\"prefix\" in ('SR', 'SH', 'RFQ', 'INC')"
+        },
+        "counters_values_check": {
+          "name": "counters_values_check",
+          "value": "\"vector\".\"counters\".\"year\" between 2000 and 2999 and \"vector\".\"counters\".\"value\" between 0 and 9999"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.job_runs": {
+      "name": "job_runs",
+      "schema": "vector",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "lease_until": {
+          "name": "lease_until",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_started_at": {
+          "name": "last_started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_finished_at": {
+          "name": "last_finished_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_status": {
+          "name": "last_status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "last_error": {
+          "name": "last_error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "job_runs_status_check": {
+          "name": "job_runs_status_check",
+          "value": "\"vector\".\"job_runs\".\"last_status\" is null or \"vector\".\"job_runs\".\"last_status\" in ('ok', 'error')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.users": {
+      "name": "users",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "oid": {
+          "name": "oid",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "last_sign_in_at": {
+          "name": "last_sign_in_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "users_oid_unique": {
+          "name": "users_oid_unique",
+          "columns": [
+            "oid"
+          ],
+          "nullsNotDistinct": false
+        },
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "columns": [
+            "email"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "users_email_check": {
+          "name": "users_email_check",
+          "value": "\"vector\".\"users\".\"email\" ~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$' and \"vector\".\"users\".\"email\" = lower(\"vector\".\"users\".\"email\")"
+        },
+        "users_name_check": {
+          "name": "users_name_check",
+          "value": "btrim(\"vector\".\"users\".\"name\") <> ''"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.bookings": {
+      "name": "bookings",
+      "schema": "vector",
+      "columns": {
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "partner_id": {
+          "name": "partner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "number": {
+          "name": "number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vessel": {
+          "name": "vessel",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "voyage": {
+          "name": "voyage",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "master_document": {
+          "name": "master_document",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "house_document": {
+          "name": "house_document",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "docs_cutoff": {
+          "name": "docs_cutoff",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vgm_cutoff": {
+          "name": "vgm_cutoff",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cargo_cutoff": {
+          "name": "cargo_cutoff",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "etd": {
+          "name": "etd",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "eta": {
+          "name": "eta",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "bookings_shipment_id_shipments_id_fk": {
+          "name": "bookings_shipment_id_shipments_id_fk",
+          "tableFrom": "bookings",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "bookings_partner_id_partners_id_fk": {
+          "name": "bookings_partner_id_partners_id_fk",
+          "tableFrom": "bookings",
+          "columnsFrom": [
+            "partner_id"
+          ],
+          "tableTo": "partners",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "bookings_number_check": {
+          "name": "bookings_number_check",
+          "value": "btrim(\"vector\".\"bookings\".\"number\") <> ''"
+        },
+        "bookings_dates_check": {
+          "name": "bookings_dates_check",
+          "value": "\"vector\".\"bookings\".\"etd\" is null or \"vector\".\"bookings\".\"eta\" is null or \"vector\".\"bookings\".\"etd\" <= \"vector\".\"bookings\".\"eta\""
+        },
+        "bookings_cutoffs_check": {
+          "name": "bookings_cutoffs_check",
+          "value": "\"vector\".\"bookings\".\"docs_cutoff\" is null or \"vector\".\"bookings\".\"cargo_cutoff\" is null or \"vector\".\"bookings\".\"docs_cutoff\" <= \"vector\".\"bookings\".\"cargo_cutoff\" + interval '7 days'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.compliance_checks": {
+      "name": "compliance_checks",
+      "schema": "vector",
+      "columns": {
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "check": {
+          "name": "check",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "detail": {
+          "name": "detail",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "evidence_codex_ref": {
+          "name": "evidence_codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "by_name": {
+          "name": "by_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "at": {
+          "name": "at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "compliance_checks_shipment_id_shipments_id_fk": {
+          "name": "compliance_checks_shipment_id_shipments_id_fk",
+          "tableFrom": "compliance_checks",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "compliance_checks_shipment_id_check_pk": {
+          "name": "compliance_checks_shipment_id_check_pk",
+          "columns": [
+            "shipment_id",
+            "check"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "compliance_check_check": {
+          "name": "compliance_check_check",
+          "value": "\"vector\".\"compliance_checks\".\"check\" in ('destination', 'screening', 'dual_use', 'dangerous_goods', 'end_use')"
+        },
+        "compliance_state_check": {
+          "name": "compliance_state_check",
+          "value": "\"vector\".\"compliance_checks\".\"state\" in ('pending', 'ok', 'na', 'blocked', 'waived')"
+        },
+        "compliance_reason_check": {
+          "name": "compliance_reason_check",
+          "value": "\"vector\".\"compliance_checks\".\"state\" <> 'waived' or btrim(coalesce(\"vector\".\"compliance_checks\".\"reason\", '')) <> ''"
+        },
+        "compliance_by_check": {
+          "name": "compliance_by_check",
+          "value": "\"vector\".\"compliance_checks\".\"state\" = 'pending' or (\"vector\".\"compliance_checks\".\"by_name\" is not null and \"vector\".\"compliance_checks\".\"at\" is not null)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.cost_lines": {
+      "name": "cost_lines",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "partner_id": {
+          "name": "partner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estimated": {
+          "name": "estimated",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "quoted": {
+          "name": "quoted",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoiced": {
+          "name": "invoiced",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoice_number": {
+          "name": "invoice_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoice_date": {
+          "name": "invoice_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reconciled": {
+          "name": "reconciled",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "variance_reason": {
+          "name": "variance_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'manual'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "cost_lines_shipment_id_shipments_id_fk": {
+          "name": "cost_lines_shipment_id_shipments_id_fk",
+          "tableFrom": "cost_lines",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "cost_lines_partner_id_partners_id_fk": {
+          "name": "cost_lines_partner_id_partners_id_fk",
+          "tableFrom": "cost_lines",
+          "columnsFrom": [
+            "partner_id"
+          ],
+          "tableTo": "partners",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "costs_category_check": {
+          "name": "costs_category_check",
+          "value": "\"vector\".\"cost_lines\".\"category\" in ('freight', 'surcharges', 'port_handling', 'customs', 'duties_taxes', 'insurance', 'packing', 'storage', 'demurrage', 'detention', 'other')"
+        },
+        "costs_currency_check": {
+          "name": "costs_currency_check",
+          "value": "\"vector\".\"cost_lines\".\"currency\" ~ '^[A-Z]{3}$'"
+        },
+        "costs_amounts_check": {
+          "name": "costs_amounts_check",
+          "value": "coalesce(\"vector\".\"cost_lines\".\"estimated\", 0) >= 0 and coalesce(\"vector\".\"cost_lines\".\"quoted\", 0) >= 0 and coalesce(\"vector\".\"cost_lines\".\"invoiced\", 0) >= 0"
+        },
+        "costs_some_check": {
+          "name": "costs_some_check",
+          "value": "\"vector\".\"cost_lines\".\"estimated\" is not null or \"vector\".\"cost_lines\".\"quoted\" is not null or \"vector\".\"cost_lines\".\"invoiced\" is not null"
+        },
+        "costs_invoice_check": {
+          "name": "costs_invoice_check",
+          "value": "(\"vector\".\"cost_lines\".\"invoiced\" is null) = (\"vector\".\"cost_lines\".\"invoice_date\" is null) and (\"vector\".\"cost_lines\".\"invoiced\" is null or btrim(coalesce(\"vector\".\"cost_lines\".\"invoice_number\", '')) <> '')"
+        },
+        "costs_reconciled_check": {
+          "name": "costs_reconciled_check",
+          "value": "not \"vector\".\"cost_lines\".\"reconciled\" or \"vector\".\"cost_lines\".\"invoiced\" is not null"
+        },
+        "costs_source_check": {
+          "name": "costs_source_check",
+          "value": "\"vector\".\"cost_lines\".\"source\" in ('manual', 'quote', 'sage', 'estimate')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.cost_standards": {
+      "name": "cost_standards",
+      "schema": "vector",
+      "columns": {
+        "mode": {
+          "name": "mode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "zone": {
+          "name": "zone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "eur_per_kg": {
+          "name": "eur_per_kg",
+          "type": "numeric(10, 3)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "cost_standards_mode_zone_pk": {
+          "name": "cost_standards_mode_zone_pk",
+          "columns": [
+            "mode",
+            "zone"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "cost_standards_mode_check": {
+          "name": "cost_standards_mode_check",
+          "value": "\"vector\".\"cost_standards\".\"mode\" in ('road', 'sea', 'air', 'rail', 'express', 'multimodal')"
+        },
+        "cost_standards_zone_check": {
+          "name": "cost_standards_zone_check",
+          "value": "\"vector\".\"cost_standards\".\"zone\" in ('europe', 'africa', 'americas', 'asia', 'oceania', 'middle_east')"
+        },
+        "cost_standards_value_check": {
+          "name": "cost_standards_value_check",
+          "value": "\"vector\".\"cost_standards\".\"eur_per_kg\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.countries": {
+      "name": "countries",
+      "schema": "vector",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "eu": {
+          "name": "eu",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "zone": {
+          "name": "zone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "risk": {
+          "name": "risk",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'none'"
+        },
+        "origin_document": {
+          "name": "origin_document",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'none'"
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "countries_code_check": {
+          "name": "countries_code_check",
+          "value": "\"vector\".\"countries\".\"code\" ~ '^[A-Z]{2}$'"
+        },
+        "countries_name_check": {
+          "name": "countries_name_check",
+          "value": "btrim(\"vector\".\"countries\".\"name\") <> ''"
+        },
+        "countries_zone_check": {
+          "name": "countries_zone_check",
+          "value": "\"vector\".\"countries\".\"zone\" in ('europe', 'africa', 'americas', 'asia', 'oceania', 'middle_east')"
+        },
+        "countries_risk_check": {
+          "name": "countries_risk_check",
+          "value": "\"vector\".\"countries\".\"risk\" in ('none', 'watch', 'restricted', 'embargoed')"
+        },
+        "countries_origin_check": {
+          "name": "countries_origin_check",
+          "value": "\"vector\".\"countries\".\"origin_document\" in ('none', 'eur1', 'certificate')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.customs_declarations": {
+      "name": "customs_declarations",
+      "schema": "vector",
+      "columns": {
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "procedure": {
+          "name": "procedure",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "declarant_id": {
+          "name": "declarant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "mrn": {
+          "name": "mrn",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lodged_on": {
+          "name": "lodged_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "exit_on": {
+          "name": "exit_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "exit_codex_ref": {
+          "name": "exit_codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "customs_declarations_shipment_id_shipments_id_fk": {
+          "name": "customs_declarations_shipment_id_shipments_id_fk",
+          "tableFrom": "customs_declarations",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "customs_declarations_declarant_id_partners_id_fk": {
+          "name": "customs_declarations_declarant_id_partners_id_fk",
+          "tableFrom": "customs_declarations",
+          "columnsFrom": [
+            "declarant_id"
+          ],
+          "tableTo": "partners",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "customs_procedure_check": {
+          "name": "customs_procedure_check",
+          "value": "\"vector\".\"customs_declarations\".\"procedure\" in ('export', 'temporary_export', 're_export', 'outward_processing', 'intra_eu', 'domestic')"
+        },
+        "customs_mrn_check": {
+          "name": "customs_mrn_check",
+          "value": "\"vector\".\"customs_declarations\".\"mrn\" is null or \"vector\".\"customs_declarations\".\"mrn\" ~ '^[0-9]{2}[A-Z]{2}[A-Z0-9]{13}[0-9]$'"
+        },
+        "customs_exit_check": {
+          "name": "customs_exit_check",
+          "value": "\"vector\".\"customs_declarations\".\"exit_on\" is null or (\"vector\".\"customs_declarations\".\"mrn\" is not null and (\"vector\".\"customs_declarations\".\"lodged_on\" is null or \"vector\".\"customs_declarations\".\"lodged_on\" <= \"vector\".\"customs_declarations\".\"exit_on\"))"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.exchange_rates": {
+      "name": "exchange_rates",
+      "schema": "vector",
+      "columns": {
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "on": {
+          "name": "on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "per_eur": {
+          "name": "per_eur",
+          "type": "numeric(14, 6)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "exchange_rates_currency_on_pk": {
+          "name": "exchange_rates_currency_on_pk",
+          "columns": [
+            "currency",
+            "on"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "exchange_rates_currency_check": {
+          "name": "exchange_rates_currency_check",
+          "value": "\"vector\".\"exchange_rates\".\"currency\" ~ '^[A-Z]{3}$' and \"vector\".\"exchange_rates\".\"currency\" <> 'EUR'"
+        },
+        "exchange_rates_rate_check": {
+          "name": "exchange_rates_rate_check",
+          "value": "\"vector\".\"exchange_rates\".\"per_eur\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.hs_codes": {
+      "name": "hs_codes",
+      "schema": "vector",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "dual_use_code": {
+          "name": "dual_use_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "validated": {
+          "name": "validated",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "hs_codes_code_check": {
+          "name": "hs_codes_code_check",
+          "value": "\"vector\".\"hs_codes\".\"code\" ~ '^[0-9]{6,10}$'"
+        },
+        "hs_codes_description_check": {
+          "name": "hs_codes_description_check",
+          "value": "btrim(\"vector\".\"hs_codes\".\"description\") <> ''"
+        },
+        "hs_codes_dual_use_check": {
+          "name": "hs_codes_dual_use_check",
+          "value": "\"vector\".\"hs_codes\".\"dual_use_code\" is null or \"vector\".\"hs_codes\".\"dual_use_code\" ~ '^[0-9][A-E][0-9]{3}[a-z0-9.]*$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.incidents": {
+      "name": "incidents",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "ref": {
+          "name": "ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "severity": {
+          "name": "severity",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "occurred_on": {
+          "name": "occurred_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "place": {
+          "name": "place",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reserves_written": {
+          "name": "reserves_written",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "photos_codex_ref": {
+          "name": "photos_codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "partner_id": {
+          "name": "partner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "claimed_amount": {
+          "name": "claimed_amount",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "claim_currency": {
+          "name": "claim_currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "claim_sent_on": {
+          "name": "claim_sent_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recovered_amount": {
+          "name": "recovered_amount",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'open'"
+        },
+        "state_reason": {
+          "name": "state_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reported_by_name": {
+          "name": "reported_by_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "incidents_shipment_id_shipments_id_fk": {
+          "name": "incidents_shipment_id_shipments_id_fk",
+          "tableFrom": "incidents",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "incidents_partner_id_partners_id_fk": {
+          "name": "incidents_partner_id_partners_id_fk",
+          "tableFrom": "incidents",
+          "columnsFrom": [
+            "partner_id"
+          ],
+          "tableTo": "partners",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "incidents_ref_unique": {
+          "name": "incidents_ref_unique",
+          "columns": [
+            "ref"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "incidents_ref_check": {
+          "name": "incidents_ref_check",
+          "value": "\"vector\".\"incidents\".\"ref\" ~ '^INC-[0-9]{4}-[0-9]{4}$'"
+        },
+        "incidents_type_check": {
+          "name": "incidents_type_check",
+          "value": "\"vector\".\"incidents\".\"type\" in ('delay', 'damage', 'loss', 'shortage', 'customs_hold', 'documents', 'safety', 'other')"
+        },
+        "incidents_severity_check": {
+          "name": "incidents_severity_check",
+          "value": "\"vector\".\"incidents\".\"severity\" in ('minor', 'major', 'critical')"
+        },
+        "incidents_description_check": {
+          "name": "incidents_description_check",
+          "value": "btrim(\"vector\".\"incidents\".\"description\") <> ''"
+        },
+        "incidents_state_check": {
+          "name": "incidents_state_check",
+          "value": "\"vector\".\"incidents\".\"state\" in ('open', 'claimed', 'settled', 'rejected', 'closed')"
+        },
+        "incidents_claim_check": {
+          "name": "incidents_claim_check",
+          "value": "(\"vector\".\"incidents\".\"claimed_amount\" is null or (\"vector\".\"incidents\".\"claimed_amount\" >= 0 and \"vector\".\"incidents\".\"claim_currency\" ~ '^[A-Z]{3}$')) and coalesce(\"vector\".\"incidents\".\"recovered_amount\", 0) >= 0"
+        },
+        "incidents_claimed_check": {
+          "name": "incidents_claimed_check",
+          "value": "\"vector\".\"incidents\".\"state\" not in ('claimed', 'settled', 'rejected') or (\"vector\".\"incidents\".\"claimed_amount\" is not null and \"vector\".\"incidents\".\"claim_sent_on\" is not null)"
+        },
+        "incidents_reason_check": {
+          "name": "incidents_reason_check",
+          "value": "\"vector\".\"incidents\".\"state\" <> 'closed' or btrim(coalesce(\"vector\".\"incidents\".\"state_reason\", '')) <> ''"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.incoterms": {
+      "name": "incoterms",
+      "schema": "vector",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sea_only": {
+          "name": "sea_only",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "incoterms_code_check": {
+          "name": "incoterms_code_check",
+          "value": "\"vector\".\"incoterms\".\"code\" ~ '^[A-Z]{3}$'"
+        },
+        "incoterms_name_check": {
+          "name": "incoterms_name_check",
+          "value": "btrim(\"vector\".\"incoterms\".\"name\") <> ''"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.loads": {
+      "name": "loads",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seal": {
+          "name": "seal",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "loads_shipment_id_shipments_id_fk": {
+          "name": "loads_shipment_id_shipments_id_fk",
+          "tableFrom": "loads",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "loads_number_unique": {
+          "name": "loads_number_unique",
+          "columns": [
+            "shipment_id",
+            "number"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "loads_number_check": {
+          "name": "loads_number_check",
+          "value": "\"vector\".\"loads\".\"number\" > 0"
+        },
+        "loads_type_check": {
+          "name": "loads_type_check",
+          "value": "\"vector\".\"loads\".\"type\" in ('truck', 'c20', 'c40', 'c40hc', 'open_top', 'flat_rack', 'hold', 'deck', 'uld')"
+        },
+        "loads_container_check": {
+          "name": "loads_container_check",
+          "value": "\"vector\".\"loads\".\"type\" not in ('c20', 'c40', 'c40hc', 'open_top', 'flat_rack') or \"vector\".\"loads\".\"identifier\" is null or \"vector\".\"loads\".\"identifier\" ~ '^[A-Z]{4}[0-9]{7}$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.milestones": {
+      "name": "milestones",
+      "schema": "vector",
+      "columns": {
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "planned_on": {
+          "name": "planned_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actual_on": {
+          "name": "actual_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "place": {
+          "name": "place",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'manual'"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "milestones_shipment_id_shipments_id_fk": {
+          "name": "milestones_shipment_id_shipments_id_fk",
+          "tableFrom": "milestones",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "milestones_shipment_id_code_pk": {
+          "name": "milestones_shipment_id_code_pk",
+          "columns": [
+            "shipment_id",
+            "code"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "milestones_code_check": {
+          "name": "milestones_code_check",
+          "value": "\"vector\".\"milestones\".\"code\" in ('ready', 'pickup', 'export_cleared', 'gate_in', 'loaded', 'departed', 'transshipment', 'arrived', 'import_cleared', 'out_for_delivery', 'delivered')"
+        },
+        "milestones_source_check": {
+          "name": "milestones_source_check",
+          "value": "\"vector\".\"milestones\".\"source\" in ('manual', 'tracking')"
+        },
+        "milestones_dates_check": {
+          "name": "milestones_dates_check",
+          "value": "\"vector\".\"milestones\".\"planned_on\" is not null or \"vector\".\"milestones\".\"actual_on\" is not null"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.outbox": {
+      "name": "outbox",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "target": {
+          "name": "target",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payload": {
+          "name": "payload",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "attempts": {
+          "name": "attempts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "last_error": {
+          "name": "last_error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "result_ref": {
+          "name": "result_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "sent_at": {
+          "name": "sent_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "outbox_state_idx": {
+          "name": "outbox_state_idx",
+          "columns": [
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "outbox_shipment_id_shipments_id_fk": {
+          "name": "outbox_shipment_id_shipments_id_fk",
+          "tableFrom": "outbox",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "outbox_target_check": {
+          "name": "outbox_target_check",
+          "value": "\"vector\".\"outbox\".\"target\" in ('codex', 'vigie', 'mail', 'keystone')"
+        },
+        "outbox_kind_check": {
+          "name": "outbox_kind_check",
+          "value": "\"vector\".\"outbox\".\"kind\" ~ '^[a-z_]{2,40}$'"
+        },
+        "outbox_state_check": {
+          "name": "outbox_state_check",
+          "value": "\"vector\".\"outbox\".\"state\" in ('pending', 'sent', 'failed')"
+        },
+        "outbox_sent_check": {
+          "name": "outbox_sent_check",
+          "value": "(\"vector\".\"outbox\".\"state\" = 'sent') = (\"vector\".\"outbox\".\"sent_at\" is not null) and \"vector\".\"outbox\".\"attempts\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.package_lines": {
+      "name": "package_lines",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "package_id": {
+          "name": "package_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "part_ref": {
+          "name": "part_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "numeric(14, 3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "unit": {
+          "name": "unit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pc'"
+        },
+        "hs_code": {
+          "name": "hs_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "origin_country": {
+          "name": "origin_country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "unit_value": {
+          "name": "unit_value",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'EUR'"
+        },
+        "net_kg": {
+          "name": "net_kg",
+          "type": "numeric(10, 1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "order_ref": {
+          "name": "order_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dual_use_code": {
+          "name": "dual_use_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "un_number": {
+          "name": "un_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dg_class": {
+          "name": "dg_class",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dg_packing_group": {
+          "name": "dg_packing_group",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "package_lines_package_id_packages_id_fk": {
+          "name": "package_lines_package_id_packages_id_fk",
+          "tableFrom": "package_lines",
+          "columnsFrom": [
+            "package_id"
+          ],
+          "tableTo": "packages",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "lines_description_check": {
+          "name": "lines_description_check",
+          "value": "btrim(\"vector\".\"package_lines\".\"description\") <> ''"
+        },
+        "lines_quantity_check": {
+          "name": "lines_quantity_check",
+          "value": "\"vector\".\"package_lines\".\"quantity\" > 0"
+        },
+        "lines_unit_check": {
+          "name": "lines_unit_check",
+          "value": "\"vector\".\"package_lines\".\"unit\" in ('pc', 'set', 'kg', 'm', 'l')"
+        },
+        "lines_hs_check": {
+          "name": "lines_hs_check",
+          "value": "\"vector\".\"package_lines\".\"hs_code\" is null or \"vector\".\"package_lines\".\"hs_code\" ~ '^[0-9]{6,10}$'"
+        },
+        "lines_origin_check": {
+          "name": "lines_origin_check",
+          "value": "\"vector\".\"package_lines\".\"origin_country\" is null or \"vector\".\"package_lines\".\"origin_country\" ~ '^[A-Z]{2}$'"
+        },
+        "lines_value_check": {
+          "name": "lines_value_check",
+          "value": "\"vector\".\"package_lines\".\"unit_value\" >= 0 and \"vector\".\"package_lines\".\"currency\" ~ '^[A-Z]{3}$' and coalesce(\"vector\".\"package_lines\".\"net_kg\", 1) > 0"
+        },
+        "lines_dual_use_check": {
+          "name": "lines_dual_use_check",
+          "value": "\"vector\".\"package_lines\".\"dual_use_code\" is null or \"vector\".\"package_lines\".\"dual_use_code\" ~ '^[0-9][A-E][0-9]{3}[a-z0-9.]*$'"
+        },
+        "lines_dg_check": {
+          "name": "lines_dg_check",
+          "value": "(\"vector\".\"package_lines\".\"un_number\" is null and \"vector\".\"package_lines\".\"dg_class\" is null and \"vector\".\"package_lines\".\"dg_packing_group\" is null) or (\"vector\".\"package_lines\".\"un_number\" ~ '^UN[0-9]{4}$' and \"vector\".\"package_lines\".\"dg_class\" ~ '^[1-9](\\.[1-6])?$' and (\"vector\".\"package_lines\".\"dg_packing_group\" is null or \"vector\".\"package_lines\".\"dg_packing_group\" in ('I', 'II', 'III')))"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.packages": {
+      "name": "packages",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "load_id": {
+          "name": "load_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "length_cm": {
+          "name": "length_cm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "width_cm": {
+          "name": "width_cm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "height_cm": {
+          "name": "height_cm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gross_kg": {
+          "name": "gross_kg",
+          "type": "numeric(10, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "net_kg": {
+          "name": "net_kg",
+          "type": "numeric(10, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "stackable": {
+          "name": "stackable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "packaging_code": {
+          "name": "packaging_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "photos_codex_ref": {
+          "name": "photos_codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "packages_shipment_id_shipments_id_fk": {
+          "name": "packages_shipment_id_shipments_id_fk",
+          "tableFrom": "packages",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "packages_load_id_loads_id_fk": {
+          "name": "packages_load_id_loads_id_fk",
+          "tableFrom": "packages",
+          "columnsFrom": [
+            "load_id"
+          ],
+          "tableTo": "loads",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "packages_packaging_code_packaging_standards_code_fk": {
+          "name": "packages_packaging_code_packaging_standards_code_fk",
+          "tableFrom": "packages",
+          "columnsFrom": [
+            "packaging_code"
+          ],
+          "tableTo": "packaging_standards",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "packages_number_unique": {
+          "name": "packages_number_unique",
+          "columns": [
+            "shipment_id",
+            "number"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "packages_number_check": {
+          "name": "packages_number_check",
+          "value": "\"vector\".\"packages\".\"number\" > 0"
+        },
+        "packages_type_check": {
+          "name": "packages_type_check",
+          "value": "\"vector\".\"packages\".\"type\" in ('crate', 'box', 'pallet', 'skid', 'drum', 'bundle', 'unit', 'container', 'envelope')"
+        },
+        "packages_dims_check": {
+          "name": "packages_dims_check",
+          "value": "\"vector\".\"packages\".\"length_cm\" between 1 and 5000 and \"vector\".\"packages\".\"width_cm\" between 1 and 2000 and \"vector\".\"packages\".\"height_cm\" between 1 and 2000"
+        },
+        "packages_weights_check": {
+          "name": "packages_weights_check",
+          "value": "\"vector\".\"packages\".\"net_kg\" > 0 and \"vector\".\"packages\".\"net_kg\" <= \"vector\".\"packages\".\"gross_kg\" and \"vector\".\"packages\".\"gross_kg\" <= 500000"
+        },
+        "packages_description_check": {
+          "name": "packages_description_check",
+          "value": "btrim(\"vector\".\"packages\".\"description\") <> ''"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.packaging_standards": {
+      "name": "packaging_standards",
+      "schema": "vector",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "length_cm": {
+          "name": "length_cm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "width_cm": {
+          "name": "width_cm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "height_cm": {
+          "name": "height_cm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tare_kg": {
+          "name": "tare_kg",
+          "type": "numeric(10, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "max_kg": {
+          "name": "max_kg",
+          "type": "numeric(10, 1)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "norm": {
+          "name": "norm",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "packaging_code_check": {
+          "name": "packaging_code_check",
+          "value": "\"vector\".\"packaging_standards\".\"code\" ~ '^[A-Z0-9-]{2,20}$'"
+        },
+        "packaging_type_check": {
+          "name": "packaging_type_check",
+          "value": "\"vector\".\"packaging_standards\".\"type\" in ('crate', 'box', 'pallet', 'skid', 'drum', 'bundle', 'unit', 'container', 'envelope')"
+        },
+        "packaging_dims_check": {
+          "name": "packaging_dims_check",
+          "value": "\"vector\".\"packaging_standards\".\"length_cm\" > 0 and \"vector\".\"packaging_standards\".\"width_cm\" > 0 and \"vector\".\"packaging_standards\".\"height_cm\" > 0 and \"vector\".\"packaging_standards\".\"tare_kg\" >= 0 and \"vector\".\"packaging_standards\".\"max_kg\" > 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.partners": {
+      "name": "partners",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "country": {
+          "name": "country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "modes": {
+          "name": "modes",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "zones": {
+          "name": "zones",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "accreditations": {
+          "name": "accreditations",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_role": {
+          "name": "contact_role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_email": {
+          "name": "contact_email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contact_phone": {
+          "name": "contact_phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'active'"
+        },
+        "state_reason": {
+          "name": "state_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "partners_name_unique": {
+          "name": "partners_name_unique",
+          "columns": [
+            "name"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "partners_name_check": {
+          "name": "partners_name_check",
+          "value": "btrim(\"vector\".\"partners\".\"name\") <> ''"
+        },
+        "partners_kind_check": {
+          "name": "partners_kind_check",
+          "value": "\"vector\".\"partners\".\"kind\" in ('carrier', 'forwarder', 'express', 'packer', 'insurer', 'agent', 'customs_broker')"
+        },
+        "partners_country_check": {
+          "name": "partners_country_check",
+          "value": "\"vector\".\"partners\".\"country\" ~ '^[A-Z]{2}$'"
+        },
+        "partners_modes_check": {
+          "name": "partners_modes_check",
+          "value": "cardinality(\"vector\".\"partners\".\"modes\") > 0 and \"vector\".\"partners\".\"modes\" <@ array['road','sea','air','rail','express','multimodal']::text[]"
+        },
+        "partners_zones_check": {
+          "name": "partners_zones_check",
+          "value": "\"vector\".\"partners\".\"zones\" <@ array['europe','africa','americas','asia','oceania','middle_east']::text[]"
+        },
+        "partners_state_check": {
+          "name": "partners_state_check",
+          "value": "\"vector\".\"partners\".\"state\" in ('active', 'suspended', 'archived')"
+        },
+        "partners_reason_check": {
+          "name": "partners_reason_check",
+          "value": "\"vector\".\"partners\".\"state\" = 'active' or btrim(coalesce(\"vector\".\"partners\".\"state_reason\", '')) <> ''"
+        },
+        "partners_email_check": {
+          "name": "partners_email_check",
+          "value": "\"vector\".\"partners\".\"contact_email\" is null or \"vector\".\"partners\".\"contact_email\" ~ '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.quotes": {
+      "name": "quotes",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "rfq_id": {
+          "name": "rfq_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "partner_id": {
+          "name": "partner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "breakdown": {
+          "name": "breakdown",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "transit_days": {
+          "name": "transit_days",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "departure_on": {
+          "name": "departure_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "valid_until": {
+          "name": "valid_until",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "conditions": {
+          "name": "conditions",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "codex_ref": {
+          "name": "codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'received'"
+        },
+        "award_reason": {
+          "name": "award_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "awarded_at": {
+          "name": "awarded_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "awarded_by_name": {
+          "name": "awarded_by_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "received_at": {
+          "name": "received_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "quotes_rfq_id_rfqs_id_fk": {
+          "name": "quotes_rfq_id_rfqs_id_fk",
+          "tableFrom": "quotes",
+          "columnsFrom": [
+            "rfq_id"
+          ],
+          "tableTo": "rfqs",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "quotes_partner_id_partners_id_fk": {
+          "name": "quotes_partner_id_partners_id_fk",
+          "tableFrom": "quotes",
+          "columnsFrom": [
+            "partner_id"
+          ],
+          "tableTo": "partners",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "quotes_partner_unique": {
+          "name": "quotes_partner_unique",
+          "columns": [
+            "rfq_id",
+            "partner_id"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "quotes_amount_check": {
+          "name": "quotes_amount_check",
+          "value": "\"vector\".\"quotes\".\"amount\" >= 0 and \"vector\".\"quotes\".\"currency\" ~ '^[A-Z]{3}$'"
+        },
+        "quotes_transit_check": {
+          "name": "quotes_transit_check",
+          "value": "\"vector\".\"quotes\".\"transit_days\" between 0 and 365"
+        },
+        "quotes_state_check": {
+          "name": "quotes_state_check",
+          "value": "\"vector\".\"quotes\".\"state\" in ('received', 'awarded', 'declined', 'expired')"
+        },
+        "quotes_awarded_check": {
+          "name": "quotes_awarded_check",
+          "value": "(\"vector\".\"quotes\".\"state\" = 'awarded') = (\"vector\".\"quotes\".\"awarded_at\" is not null)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.rfq_invitations": {
+      "name": "rfq_invitations",
+      "schema": "vector",
+      "columns": {
+        "rfq_id": {
+          "name": "rfq_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "partner_id": {
+          "name": "partner_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "invited_at": {
+          "name": "invited_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answered_at": {
+          "name": "answered_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "declined": {
+          "name": "declined",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "rfq_invitations_rfq_id_rfqs_id_fk": {
+          "name": "rfq_invitations_rfq_id_rfqs_id_fk",
+          "tableFrom": "rfq_invitations",
+          "columnsFrom": [
+            "rfq_id"
+          ],
+          "tableTo": "rfqs",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "rfq_invitations_partner_id_partners_id_fk": {
+          "name": "rfq_invitations_partner_id_partners_id_fk",
+          "tableFrom": "rfq_invitations",
+          "columnsFrom": [
+            "partner_id"
+          ],
+          "tableTo": "partners",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "rfq_invitations_rfq_id_partner_id_pk": {
+          "name": "rfq_invitations_rfq_id_partner_id_pk",
+          "columns": [
+            "rfq_id",
+            "partner_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "invitations_answer_check": {
+          "name": "invitations_answer_check",
+          "value": "\"vector\".\"rfq_invitations\".\"answered_at\" is null or \"vector\".\"rfq_invitations\".\"answered_at\" >= \"vector\".\"rfq_invitations\".\"invited_at\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.rfqs": {
+      "name": "rfqs",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "ref": {
+          "name": "ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'door_to_door'"
+        },
+        "due_on": {
+          "name": "due_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "sent_at": {
+          "name": "sent_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "note": {
+          "name": "note",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "rfqs_shipment_id_shipments_id_fk": {
+          "name": "rfqs_shipment_id_shipments_id_fk",
+          "tableFrom": "rfqs",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "rfqs_ref_unique": {
+          "name": "rfqs_ref_unique",
+          "columns": [
+            "ref"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "rfqs_ref_check": {
+          "name": "rfqs_ref_check",
+          "value": "\"vector\".\"rfqs\".\"ref\" ~ '^RFQ-[0-9]{4}-[0-9]{4}$'"
+        },
+        "rfqs_scope_check": {
+          "name": "rfqs_scope_check",
+          "value": "\"vector\".\"rfqs\".\"scope\" in ('door_to_door', 'pre_carriage', 'main_carriage', 'on_carriage')"
+        },
+        "rfqs_state_check": {
+          "name": "rfqs_state_check",
+          "value": "\"vector\".\"rfqs\".\"state\" in ('draft', 'sent', 'closed', 'cancelled')"
+        },
+        "rfqs_sent_check": {
+          "name": "rfqs_sent_check",
+          "value": "\"vector\".\"rfqs\".\"state\" = 'draft' or \"vector\".\"rfqs\".\"state\" = 'cancelled' or \"vector\".\"rfqs\".\"sent_at\" is not null"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.shipment_allocations": {
+      "name": "shipment_allocations",
+      "schema": "vector",
+      "columns": {
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "request_id": {
+          "name": "request_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "share": {
+          "name": "share",
+          "type": "numeric(5, 4)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "share_reason": {
+          "name": "share_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "shipment_allocations_shipment_id_shipments_id_fk": {
+          "name": "shipment_allocations_shipment_id_shipments_id_fk",
+          "tableFrom": "shipment_allocations",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipment_allocations_request_id_shipment_requests_id_fk": {
+          "name": "shipment_allocations_request_id_shipment_requests_id_fk",
+          "tableFrom": "shipment_allocations",
+          "columnsFrom": [
+            "request_id"
+          ],
+          "tableTo": "shipment_requests",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "shipment_allocations_shipment_id_request_id_pk": {
+          "name": "shipment_allocations_shipment_id_request_id_pk",
+          "columns": [
+            "shipment_id",
+            "request_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "allocations_share_check": {
+          "name": "allocations_share_check",
+          "value": "\"vector\".\"shipment_allocations\".\"share\" is null or (\"vector\".\"shipment_allocations\".\"share\" >= 0 and \"vector\".\"shipment_allocations\".\"share\" <= 1 and btrim(coalesce(\"vector\".\"shipment_allocations\".\"share_reason\", '')) <> '')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.shipment_documents": {
+      "name": "shipment_documents",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'expected'"
+        },
+        "number": {
+          "name": "number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "issued_on": {
+          "name": "issued_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "codex_ref": {
+          "name": "codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "generated": {
+          "name": "generated",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_by_name": {
+          "name": "updated_by_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "shipment_documents_shipment_id_shipments_id_fk": {
+          "name": "shipment_documents_shipment_id_shipments_id_fk",
+          "tableFrom": "shipment_documents",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "documents_kind_unique": {
+          "name": "documents_kind_unique",
+          "columns": [
+            "shipment_id",
+            "kind"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "documents_kind_check": {
+          "name": "documents_kind_check",
+          "value": "\"vector\".\"shipment_documents\".\"kind\" in ('packing_list', 'proforma_invoice', 'commercial_invoice', 'marks', 'shipping_instructions', 'cmr', 'bill_of_lading', 'air_waybill', 'export_declaration', 'certificate_of_origin', 'eur1', 'insurance_certificate', 'dg_declaration', 'sds', 'dual_use_licence', 'end_use_certificate', 'ispm15', 'vgm', 'pod', 'lc_documents')"
+        },
+        "documents_state_check": {
+          "name": "documents_state_check",
+          "value": "\"vector\".\"shipment_documents\".\"state\" in ('expected', 'received', 'checked', 'rejected', 'waived')"
+        },
+        "documents_reference_check": {
+          "name": "documents_reference_check",
+          "value": "\"vector\".\"shipment_documents\".\"state\" not in ('received', 'checked') or btrim(coalesce(\"vector\".\"shipment_documents\".\"codex_ref\", '')) <> ''"
+        },
+        "documents_reason_check": {
+          "name": "documents_reason_check",
+          "value": "\"vector\".\"shipment_documents\".\"state\" not in ('waived', 'rejected') or btrim(coalesce(\"vector\".\"shipment_documents\".\"reason\", '')) <> ''"
+        },
+        "documents_codex_check": {
+          "name": "documents_codex_check",
+          "value": "\"vector\".\"shipment_documents\".\"codex_ref\" is null or \"vector\".\"shipment_documents\".\"codex_ref\" ~ '^[A-Z]{2,5}-[A-Z0-9-]{1,40}$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.shipment_requests": {
+      "name": "shipment_requests",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "ref": {
+          "name": "ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "origin": {
+          "name": "origin",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "project_code": {
+          "name": "project_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cost_code": {
+          "name": "cost_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "order_ref": {
+          "name": "order_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "from_site": {
+          "name": "from_site",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "from_address": {
+          "name": "from_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "from_country": {
+          "name": "from_country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "to_site": {
+          "name": "to_site",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "to_address": {
+          "name": "to_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "to_country": {
+          "name": "to_country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ready_on": {
+          "name": "ready_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "needed_on": {
+          "name": "needed_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "urgency": {
+          "name": "urgency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'normal'"
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "estimated_kg": {
+          "name": "estimated_kg",
+          "type": "numeric(12, 1)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estimated_m3": {
+          "name": "estimated_m3",
+          "type": "numeric(10, 3)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estimated_value_eur": {
+          "name": "estimated_value_eur",
+          "type": "numeric(14, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "dangerous_goods": {
+          "name": "dangerous_goods",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unknown'"
+        },
+        "incoterm": {
+          "name": "incoterm",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "incoterm_place": {
+          "name": "incoterm_place",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "state_reason": {
+          "name": "state_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "requested_by_id": {
+          "name": "requested_by_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "requested_by_name": {
+          "name": "requested_by_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "submitted_at": {
+          "name": "submitted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "requests_state_idx": {
+          "name": "requests_state_idx",
+          "columns": [
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "shipment_requests_from_site_sites_code_fk": {
+          "name": "shipment_requests_from_site_sites_code_fk",
+          "tableFrom": "shipment_requests",
+          "columnsFrom": [
+            "from_site"
+          ],
+          "tableTo": "sites",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipment_requests_to_site_sites_code_fk": {
+          "name": "shipment_requests_to_site_sites_code_fk",
+          "tableFrom": "shipment_requests",
+          "columnsFrom": [
+            "to_site"
+          ],
+          "tableTo": "sites",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipment_requests_incoterm_incoterms_code_fk": {
+          "name": "shipment_requests_incoterm_incoterms_code_fk",
+          "tableFrom": "shipment_requests",
+          "columnsFrom": [
+            "incoterm"
+          ],
+          "tableTo": "incoterms",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipment_requests_requested_by_id_users_id_fk": {
+          "name": "shipment_requests_requested_by_id_users_id_fk",
+          "tableFrom": "shipment_requests",
+          "columnsFrom": [
+            "requested_by_id"
+          ],
+          "tableTo": "users",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "shipment_requests_ref_unique": {
+          "name": "shipment_requests_ref_unique",
+          "columns": [
+            "ref"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "requests_ref_check": {
+          "name": "requests_ref_check",
+          "value": "\"vector\".\"shipment_requests\".\"ref\" ~ '^SR-[0-9]{4}-[0-9]{4}$'"
+        },
+        "requests_origin_check": {
+          "name": "requests_origin_check",
+          "value": "\"vector\".\"shipment_requests\".\"origin\" in ('project', 'purchase_order', 'spare_part', 'site_return', 'other')"
+        },
+        "requests_title_check": {
+          "name": "requests_title_check",
+          "value": "btrim(\"vector\".\"shipment_requests\".\"title\") <> ''"
+        },
+        "requests_description_check": {
+          "name": "requests_description_check",
+          "value": "btrim(\"vector\".\"shipment_requests\".\"description\") <> ''"
+        },
+        "requests_imputation_check": {
+          "name": "requests_imputation_check",
+          "value": "\"vector\".\"shipment_requests\".\"project_code\" is not null or \"vector\".\"shipment_requests\".\"cost_code\" is not null"
+        },
+        "requests_project_check": {
+          "name": "requests_project_check",
+          "value": "\"vector\".\"shipment_requests\".\"project_code\" is null or \"vector\".\"shipment_requests\".\"project_code\" ~ '^[A-Z0-9-]{2,20}$'"
+        },
+        "requests_cost_code_check": {
+          "name": "requests_cost_code_check",
+          "value": "\"vector\".\"shipment_requests\".\"cost_code\" is null or \"vector\".\"shipment_requests\".\"cost_code\" ~ '^[A-Z0-9-]{2,20}$'"
+        },
+        "requests_from_check": {
+          "name": "requests_from_check",
+          "value": "\"vector\".\"shipment_requests\".\"from_site\" is not null or btrim(coalesce(\"vector\".\"shipment_requests\".\"from_address\", '')) <> ''"
+        },
+        "requests_to_check": {
+          "name": "requests_to_check",
+          "value": "\"vector\".\"shipment_requests\".\"to_site\" is not null or btrim(coalesce(\"vector\".\"shipment_requests\".\"to_address\", '')) <> ''"
+        },
+        "requests_countries_check": {
+          "name": "requests_countries_check",
+          "value": "\"vector\".\"shipment_requests\".\"from_country\" ~ '^[A-Z]{2}$' and \"vector\".\"shipment_requests\".\"to_country\" ~ '^[A-Z]{2}$'"
+        },
+        "requests_dates_check": {
+          "name": "requests_dates_check",
+          "value": "\"vector\".\"shipment_requests\".\"ready_on\" <= \"vector\".\"shipment_requests\".\"needed_on\""
+        },
+        "requests_urgency_check": {
+          "name": "requests_urgency_check",
+          "value": "\"vector\".\"shipment_requests\".\"urgency\" in ('normal', 'urgent', 'critical')"
+        },
+        "requests_dg_check": {
+          "name": "requests_dg_check",
+          "value": "\"vector\".\"shipment_requests\".\"dangerous_goods\" in ('yes', 'no', 'unknown')"
+        },
+        "requests_estimates_check": {
+          "name": "requests_estimates_check",
+          "value": "coalesce(\"vector\".\"shipment_requests\".\"estimated_kg\", 1) > 0 and coalesce(\"vector\".\"shipment_requests\".\"estimated_m3\", 1) > 0 and coalesce(\"vector\".\"shipment_requests\".\"estimated_value_eur\", 0) >= 0"
+        },
+        "requests_state_check": {
+          "name": "requests_state_check",
+          "value": "\"vector\".\"shipment_requests\".\"state\" in ('draft', 'submitted', 'accepted', 'rejected', 'cancelled')"
+        },
+        "requests_reason_check": {
+          "name": "requests_reason_check",
+          "value": "\"vector\".\"shipment_requests\".\"state\" not in ('rejected', 'cancelled') or btrim(coalesce(\"vector\".\"shipment_requests\".\"state_reason\", '')) <> ''"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.shipments": {
+      "name": "shipments",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "ref": {
+          "name": "ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mode": {
+          "name": "mode",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "freight_type": {
+          "name": "freight_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "incoterm": {
+          "name": "incoterm",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "incoterm_place": {
+          "name": "incoterm_place",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "from_site": {
+          "name": "from_site",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "from_address": {
+          "name": "from_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "from_country": {
+          "name": "from_country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "to_site": {
+          "name": "to_site",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "to_address": {
+          "name": "to_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "to_country": {
+          "name": "to_country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "port_of_loading": {
+          "name": "port_of_loading",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "port_of_discharge": {
+          "name": "port_of_discharge",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "coordinator_id": {
+          "name": "coordinator_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "coordinator_name": {
+          "name": "coordinator_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "payment": {
+          "name": "payment",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'open_account'"
+        },
+        "lc_number": {
+          "name": "lc_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lc_bank": {
+          "name": "lc_bank",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lc_latest_shipment": {
+          "name": "lc_latest_shipment",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lc_expiry": {
+          "name": "lc_expiry",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lc_documents": {
+          "name": "lc_documents",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "insurance": {
+          "name": "insurance",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'policy'"
+        },
+        "ready_on": {
+          "name": "ready_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "etd": {
+          "name": "etd",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "eta": {
+          "name": "eta",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "latest_eta": {
+          "name": "latest_eta",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "picked_up_on": {
+          "name": "picked_up_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "atd": {
+          "name": "atd",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ata": {
+          "name": "ata",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delivered_on": {
+          "name": "delivered_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pod_signed_by": {
+          "name": "pod_signed_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pod_codex_ref": {
+          "name": "pod_codex_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "delivery_reserves": {
+          "name": "delivery_reserves",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "packing_validated_at": {
+          "name": "packing_validated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state": {
+          "name": "state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "previous_state": {
+          "name": "previous_state",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state_reason": {
+          "name": "state_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "keystone_ref": {
+          "name": "keystone_ref",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "shipments_state_idx": {
+          "name": "shipments_state_idx",
+          "columns": [
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        },
+        "shipments_updated_at_idx": {
+          "name": "shipments_updated_at_idx",
+          "columns": [
+            {
+              "expression": "updated_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "with": {},
+          "method": "btree",
+          "concurrently": false
+        }
+      },
+      "foreignKeys": {
+        "shipments_incoterm_incoterms_code_fk": {
+          "name": "shipments_incoterm_incoterms_code_fk",
+          "tableFrom": "shipments",
+          "columnsFrom": [
+            "incoterm"
+          ],
+          "tableTo": "incoterms",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipments_from_site_sites_code_fk": {
+          "name": "shipments_from_site_sites_code_fk",
+          "tableFrom": "shipments",
+          "columnsFrom": [
+            "from_site"
+          ],
+          "tableTo": "sites",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipments_to_site_sites_code_fk": {
+          "name": "shipments_to_site_sites_code_fk",
+          "tableFrom": "shipments",
+          "columnsFrom": [
+            "to_site"
+          ],
+          "tableTo": "sites",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "shipments_coordinator_id_users_id_fk": {
+          "name": "shipments_coordinator_id_users_id_fk",
+          "tableFrom": "shipments",
+          "columnsFrom": [
+            "coordinator_id"
+          ],
+          "tableTo": "users",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "shipments_ref_unique": {
+          "name": "shipments_ref_unique",
+          "columns": [
+            "ref"
+          ],
+          "nullsNotDistinct": false
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "shipments_ref_check": {
+          "name": "shipments_ref_check",
+          "value": "\"vector\".\"shipments\".\"ref\" ~ '^SH-[0-9]{4}-[0-9]{4}$'"
+        },
+        "shipments_title_check": {
+          "name": "shipments_title_check",
+          "value": "btrim(\"vector\".\"shipments\".\"title\") <> ''"
+        },
+        "shipments_mode_check": {
+          "name": "shipments_mode_check",
+          "value": "\"vector\".\"shipments\".\"mode\" in ('road', 'sea', 'air', 'rail', 'express', 'multimodal')"
+        },
+        "shipments_freight_check": {
+          "name": "shipments_freight_check",
+          "value": "\"vector\".\"shipments\".\"freight_type\" is null or \"vector\".\"shipments\".\"freight_type\" in ('parcel', 'ltl', 'ftl', 'fcl', 'lcl', 'breakbulk', 'roro', 'air_general', 'air_charter')"
+        },
+        "shipments_from_check": {
+          "name": "shipments_from_check",
+          "value": "\"vector\".\"shipments\".\"from_site\" is not null or btrim(coalesce(\"vector\".\"shipments\".\"from_address\", '')) <> ''"
+        },
+        "shipments_to_check": {
+          "name": "shipments_to_check",
+          "value": "\"vector\".\"shipments\".\"to_site\" is not null or btrim(coalesce(\"vector\".\"shipments\".\"to_address\", '')) <> ''"
+        },
+        "shipments_countries_check": {
+          "name": "shipments_countries_check",
+          "value": "\"vector\".\"shipments\".\"from_country\" ~ '^[A-Z]{2}$' and \"vector\".\"shipments\".\"to_country\" ~ '^[A-Z]{2}$'"
+        },
+        "shipments_ports_check": {
+          "name": "shipments_ports_check",
+          "value": "(\"vector\".\"shipments\".\"port_of_loading\" is null or \"vector\".\"shipments\".\"port_of_loading\" ~ '^[A-Z]{2}[A-Z0-9]{3}$') and (\"vector\".\"shipments\".\"port_of_discharge\" is null or \"vector\".\"shipments\".\"port_of_discharge\" ~ '^[A-Z]{2}[A-Z0-9]{3}$')"
+        },
+        "shipments_payment_check": {
+          "name": "shipments_payment_check",
+          "value": "\"vector\".\"shipments\".\"payment\" in ('open_account', 'letter_of_credit', 'cash_against_documents', 'prepaid')"
+        },
+        "shipments_lc_check": {
+          "name": "shipments_lc_check",
+          "value": "\"vector\".\"shipments\".\"payment\" <> 'letter_of_credit' or btrim(coalesce(\"vector\".\"shipments\".\"lc_number\", '')) <> ''"
+        },
+        "shipments_lc_dates_check": {
+          "name": "shipments_lc_dates_check",
+          "value": "\"vector\".\"shipments\".\"lc_latest_shipment\" is null or \"vector\".\"shipments\".\"lc_expiry\" is null or \"vector\".\"shipments\".\"lc_latest_shipment\" <= \"vector\".\"shipments\".\"lc_expiry\""
+        },
+        "shipments_lc_documents_check": {
+          "name": "shipments_lc_documents_check",
+          "value": "\"vector\".\"shipments\".\"lc_documents\" <@ array['packing_list','proforma_invoice','commercial_invoice','marks','shipping_instructions','cmr','bill_of_lading','air_waybill','export_declaration','certificate_of_origin','eur1','insurance_certificate','dg_declaration','sds','dual_use_licence','end_use_certificate','ispm15','vgm','pod','lc_documents']::text[]"
+        },
+        "shipments_insurance_check": {
+          "name": "shipments_insurance_check",
+          "value": "\"vector\".\"shipments\".\"insurance\" in ('none', 'buyer', 'policy', 'specific')"
+        },
+        "shipments_dates_check": {
+          "name": "shipments_dates_check",
+          "value": "(\"vector\".\"shipments\".\"etd\" is null or \"vector\".\"shipments\".\"eta\" is null or \"vector\".\"shipments\".\"etd\" <= \"vector\".\"shipments\".\"eta\") and (\"vector\".\"shipments\".\"atd\" is null or \"vector\".\"shipments\".\"ata\" is null or \"vector\".\"shipments\".\"atd\" <= \"vector\".\"shipments\".\"ata\") and (\"vector\".\"shipments\".\"ata\" is null or \"vector\".\"shipments\".\"delivered_on\" is null or \"vector\".\"shipments\".\"ata\" <= \"vector\".\"shipments\".\"delivered_on\")"
+        },
+        "shipments_state_check": {
+          "name": "shipments_state_check",
+          "value": "\"vector\".\"shipments\".\"state\" in ('draft', 'planned', 'booked', 'picked_up', 'in_transit', 'arrived', 'delivered', 'closed', 'cancelled', 'on_hold')"
+        },
+        "shipments_previous_state_check": {
+          "name": "shipments_previous_state_check",
+          "value": "(\"vector\".\"shipments\".\"state\" = 'on_hold') = (\"vector\".\"shipments\".\"previous_state\" is not null) and (\"vector\".\"shipments\".\"previous_state\" is null or \"vector\".\"shipments\".\"previous_state\" in ('draft', 'planned', 'booked', 'picked_up', 'in_transit', 'arrived', 'delivered', 'closed', 'cancelled', 'on_hold'))"
+        },
+        "shipments_reason_check": {
+          "name": "shipments_reason_check",
+          "value": "\"vector\".\"shipments\".\"state\" not in ('cancelled', 'on_hold') or btrim(coalesce(\"vector\".\"shipments\".\"state_reason\", '')) <> ''"
+        },
+        "shipments_pod_check": {
+          "name": "shipments_pod_check",
+          "value": "\"vector\".\"shipments\".\"state\" not in ('delivered', 'closed') or (\"vector\".\"shipments\".\"delivered_on\" is not null and btrim(coalesce(\"vector\".\"shipments\".\"pod_codex_ref\", '')) <> '')"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.sites": {
+      "name": "sites",
+      "schema": "vector",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "city": {
+          "name": "city",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "country": {
+          "name": "country",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "latitude": {
+          "name": "latitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "longitude": {
+          "name": "longitude",
+          "type": "double precision",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "active": {
+          "name": "active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "sites_code_check": {
+          "name": "sites_code_check",
+          "value": "\"vector\".\"sites\".\"code\" ~ '^[a-z0-9_-]{2,32}$'"
+        },
+        "sites_name_check": {
+          "name": "sites_name_check",
+          "value": "btrim(\"vector\".\"sites\".\"name\") <> ''"
+        },
+        "sites_kind_check": {
+          "name": "sites_kind_check",
+          "value": "\"vector\".\"sites\".\"kind\" in ('workshop', 'warehouse', 'supplier', 'mine', 'port', 'office')"
+        },
+        "sites_country_check": {
+          "name": "sites_country_check",
+          "value": "\"vector\".\"sites\".\"country\" ~ '^[A-Z]{2}$'"
+        },
+        "sites_source_check": {
+          "name": "sites_source_check",
+          "value": "\"vector\".\"sites\".\"source\" in ('matrix', 'local', 'demo')"
+        },
+        "sites_coords_check": {
+          "name": "sites_coords_check",
+          "value": "(\"vector\".\"sites\".\"latitude\" is null) = (\"vector\".\"sites\".\"longitude\" is null) and (\"vector\".\"sites\".\"latitude\" is null or (\"vector\".\"sites\".\"latitude\" between -90 and 90 and \"vector\".\"sites\".\"longitude\" between -180 and 180))"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "vector.tracking_events": {
+      "name": "tracking_events",
+      "schema": "vector",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "shipment_id": {
+          "name": "shipment_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "occurred_on": {
+          "name": "occurred_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "eta": {
+          "name": "eta",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "place": {
+          "name": "place",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "provider": {
+          "name": "provider",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "received_at": {
+          "name": "received_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "applied": {
+          "name": "applied",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "tracking_events_shipment_id_shipments_id_fk": {
+          "name": "tracking_events_shipment_id_shipments_id_fk",
+          "tableFrom": "tracking_events",
+          "columnsFrom": [
+            "shipment_id"
+          ],
+          "tableTo": "shipments",
+          "schemaTo": "vector",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "tracking_code_check": {
+          "name": "tracking_code_check",
+          "value": "\"vector\".\"tracking_events\".\"code\" in ('ready', 'pickup', 'export_cleared', 'gate_in', 'loaded', 'departed', 'transshipment', 'arrived', 'import_cleared', 'out_for_delivery', 'delivered')"
+        },
+        "tracking_provider_check": {
+          "name": "tracking_provider_check",
+          "value": "\"vector\".\"tracking_events\".\"provider\" in ('simulation')"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "views": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

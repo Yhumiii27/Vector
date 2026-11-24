@@ -13,7 +13,7 @@ de réponse, **la proposition par défaut s'applique** : c'est elle que la livra
 | P-2 | 24 nov. 2026 | Règles communes de la suite (Norma 1.2.0) : PostgreSQL commun, schéma `vector`, rôle `vector_app`, vues `pub_` définies par Matrix, droits lus dans Clavis, documents dans Codex. |
 | P-3 | 24 nov. 2026 | Charte Nocturne (Norma), thèmes sombre et clair, français par défaut. |
 | P-4 | 24 nov. 2026 | Toute l'interface et le suivi des expéditions sont construits dès la première version (livraison 1), sur des données de démonstration fictives. |
-| P-5 | 24 nov. 2026 | Ports sur le Mac du propriétaire : 3900 (Vector) et 3910 (tests), libres dans le registre de Norma (à y inscrire : demande DN-1). |
+| P-5 | 24 nov. 2026 | Ports sur le Mac du propriétaire : 3900 (Vector) et 3910 (tests), inscrits au registre de Norma (2.1.0, demande DN-1). |
 
 ## 2. Réponses du propriétaire
 

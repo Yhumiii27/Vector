@@ -1,0 +1,81 @@
+/* Vector's own pieces of the sidebar (Norma 2.0: brand, ⌘K, entries, sections and the account block come from
+   norma/charte/coque.css): the "View as" / account menu opening above the account block. */
+
+.menu {
+  position: absolute;
+  z-index: 40;
+  bottom: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.menuHead {
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-neutral-500);
+  padding: 4px 8px 6px;
+}
+
+.persona {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--text-control);
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+}
+
+.personaOn {
+  background: var(--color-accent-900);
+}
+
+.persona:hover {
+  background: var(--color-neutral-900);
+}
+
+.avatarSm {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-neutral-800);
+  color: var(--color-neutral-200);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-micro);
+}
+
+.whoName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menuSep {
+  height: 1px;
+  margin: 4px 2px;
+  background: var(--color-divider);
+}
+
+.signOutForm {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1024px), (pointer: coarse) {
+  .persona {
+    min-height: var(--touch-target);
+  }
+}
