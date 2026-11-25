@@ -1,6 +1,6 @@
 // Sign-in page — public, outside the app shell. Entra mode: one button "Sign in with Clavis" (OpenID Connect, the group's
 // central sign-in). Demo mode: there is nothing to sign in to, so it goes Home.
-import { CheckCircle, Path, SignIn, WarningCircle } from '@phosphor-icons/react/dist/ssr';
+import { CheckCircle, SignIn, WarningCircle } from '@phosphor-icons/react/dist/ssr';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Card, CardTitle } from '@norma/charte/ds/Card';
@@ -9,6 +9,7 @@ import { AUTH_PATHS, SIGN_IN_ERROR, isSignInError, safeReturnTo } from '@/domain
 import s from '@/features/auth/sign-in.module.css';
 import { authMode } from '@/server/auth/config';
 import { getI18n } from '@/server/session';
+import { ToolLogo } from '@norma/charte/ds/ToolLogo';
 
 export const metadata: Metadata = { title: 'Vector' };
 
@@ -27,9 +28,7 @@ export default async function SignInPage({ searchParams }: { searchParams: Promi
     <main className={s.page}>
       <Card elev="lg" className={s.card}>
         <div className={s.brand}>
-          <div className={s.logo}>
-            <Path size={15} />
-          </div>
+          <ToolLogo code="vector" />
           <div className={s.wordmark}>Vector</div>
         </div>
         <CardTitle as="span">{t('Sign in to Vector')}</CardTitle>

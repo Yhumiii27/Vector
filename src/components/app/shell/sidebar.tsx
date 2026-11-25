@@ -9,13 +9,14 @@ import { useEffect, useMemo, useRef, useState, useTransition } from 'react';
 import { cx } from '@norma/charte/ds/cx';
 import { NavEntry, NavList, NavSection, NavSections, PageSearch, Sidebar as CoqueSidebar, type PageHit } from '@norma/charte/ds/Sidebar';
 import { ROLE_LABEL, type RoleKey } from '@/config/roles';
-import { BRAND_ICON, SCREEN_ICONS } from '@/config/screen-icons';
+import { SCREEN_ICONS } from '@/config/screen-icons';
 import type { ScreenId } from '@/config/screens';
 import { AUTH_PATHS } from '@/domain/auth';
 import { useI18n } from '@/i18n/client';
 import { setViewAs } from '@/server/actions/preferences';
 import { buildNav, type NavEntry as NavEntryModel } from './nav-model';
 import styles from './sidebar.module.css';
+import { ToolLogo } from '@norma/charte/ds/ToolLogo';
 
 export interface SidebarPersona {
   role: RoleKey;
@@ -89,7 +90,7 @@ export function Sidebar({ role, roles, personas, account, counts, folded: initia
   const entry = (n: NavEntryModel, item: boolean) => <NavEntry key={n.id} href={n.href} label={t(n.label)} icon={SCREEN_ICONS[n.id] ?? Eye} active={n.active} badge={n.count || undefined} item={item} />;
 
   return (
-    <CoqueSidebar name="Vector" icon={BRAND_ICON} footer={account ? <AccountMenu account={account} /> : <ViewAs role={role} personas={personas} />}>
+    <CoqueSidebar name="Vector" logo={<ToolLogo code="vector" />} footer={account ? <AccountMenu account={account} /> : <ViewAs role={role} personas={personas} />}>
       <PageSearch pages={pages}>
         <NavList>{nav.fixed.map((n) => entry(n, false))}</NavList>
         <NavSections>

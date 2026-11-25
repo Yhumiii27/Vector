@@ -3,8 +3,8 @@
 // tool's name · the language / display pair, last. A Client Component so that the logo glyph is not passed from the server.
 import type { ReactNode } from 'react';
 import { MobileTopBar } from '@norma/charte/ds/AppShell';
-import { BRAND_ICON } from '@/config/screen-icons';
+import { ToolLogo } from '@norma/charte/ds/ToolLogo';
 
 export function VectorTopBar({ prefs }: { prefs: ReactNode }) {
-  return <MobileTopBar name="Vector" icon={BRAND_ICON} prefs={prefs} />;
+  return <MobileTopBar name="Vector" logo={<ToolLogo code="vector" size={20} />} prefs={prefs} />;
 }
