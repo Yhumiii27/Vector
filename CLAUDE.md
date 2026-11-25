@@ -35,6 +35,9 @@ award, booking and cut-offs, export customs and compliance (dual use, sanctions)
   display pair `PrefsStack` (`prefs.tsx`: FR | EN over dark | light, same size) as the last element of every page header and
   of the top bar, nowhere else. `touch.css` then `coque.css` are imported after `nocturne.css`; period navigation and
   filters go in the header's `toolbar` (`FilterBar`); sizes come from the `--text-*` tokens.
+- **Logo, Norma 2.3.0** (owner, 25 Nov 2026; `norma/charte/COQUE.md` § 8 bis): the brand of the sidebar and of the top bar is the
+  charter's `ToolLogo code="vector"` (`@norma/charte/ds/ToolLogo`, 26 px, 20 px in the top bar), also on the pages outside the shell
+  (sign-in…); the favicon is `src/app/icon.svg`, a copy of `norma/charte/logos/vector.svg` (checked by `src/app/icon.test.ts`).
 - Owner's answers: questionnaire built from `scripts/questionnaire/` by `node norma/outils/questionnaire/build.mjs`
   (`.artifacts/decisions-vector.html`, to be published as an artifact); read its database (collection `answers`) before each
   delivery and apply the answers to `docs/DECISIONS.md`.
