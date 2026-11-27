@@ -1,4 +1,4 @@
-// Vector's place on a PostgreSQL server — the shared EPC2I server (decision M-01 in Matrix: one database `epc2i`, one schema
+// Vector's place on a PostgreSQL server — the shared Atrium server (decision M-01 in Matrix: one database, named by DATABASE_URL, one schema
 // per tool; Vector connects as `vector_app`, owner of the schema `vector` and of nothing else, N-1). Vector runs on PostgreSQL
 // only (owner, 22 Oct 2026): a developer machine and the CI use the same layout (`npm run db:local` creates it there).
 // - tables are declared in the schema (`vector.table(…)`, ./schema/_schema.ts), so migrations name `"vector".` themselves;

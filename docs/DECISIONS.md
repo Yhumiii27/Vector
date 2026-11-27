@@ -1,8 +1,9 @@
 # Vector — décisions
 
-Questionnaire du responsable produit : `scripts/questionnaire/questions.json` (source), page construite par
-`node norma/outils/questionnaire/build.mjs` (`.artifacts/decisions-vector.html`, à publier comme artefact ; les réponses
-vivent dans sa base, collection `answers`, relue avant chaque livraison et reportée ici). Tant qu'une question n'a pas
+Questions du responsable produit : `decisions/vector.json` du dépôt Norma (Norma 3.0, 27 nov. 2026), auxquelles il répond
+sur la page unique « Suivi Atrium » (https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf ; réponses dans sa base, collection
+`answers`, relues avant chaque livraison et reportées ici). L'ancienne page de questionnaire de Vector
+(`scripts/questionnaire/`) est retirée : ses questions y ont été reprises. Tant qu'une question n'a pas
 de réponse, **la proposition par défaut s'applique** : c'est elle que la livraison 1 a construite.
 
 ## 1. Décisions déjà prises
@@ -17,7 +18,7 @@ de réponse, **la proposition par défaut s'applique** : c'est elle que la livra
 
 ## 2. Réponses du propriétaire
 
-Aucune à ce jour (questionnaire à publier).
+Aucune à ce jour.
 
 ## 3. Questions et réponses par défaut
 
@@ -27,7 +28,7 @@ Aucune à ce jour (questionnaire à publier).
 | --- | --- | --- | --- | --- |
 | N-1 | Le nom de l’outil : « Vector » ? | Vector | Portus (« le port ») ; Navis (« le navire ») ; Un autre nom (le donner en note) | L1 |
 | T-1 | Les expéditions passent-elles de Keystone (écran projet R-158) à Vector ? | Oui, par étapes (docs/spec/05-echanges.md § 4) : Vector devient la source des expéditions ; Keystone garde l’Incoterm du contrat, la nomenclature, le contrôle colisage ↔ nomenclature, la réception sur site et les réserves, et affiche les expéditions du projet en lecture avec un lien vers Vector ; Arche lit vector.pub_expeditions (mêmes colonnes). | Non : Keystone garde les expéditions de projet, Vector ne traite que le hors projet (pièces de rechange, retours, achats) ; Vector reprend tout, y compris la réception sur site et les réserves | L2 |
-| D-1 | Pour quelles sociétés et quels sites Vector travaille-t-il ? | Au départ, tout ce qui part des sites d’EPC2i (ateliers, magasins) ou d’un fournisseur pour son compte ; une filiale s’ajoute ensuite site par site (le site devient un départ possible, ses utilisateurs reçoivent un rôle Vector dans Clavis). | Tout le groupe dès le départ ; EPC2i seulement, sans extension prévue | L1 |
+| D-1 | Pour quelles sociétés et quels sites Vector travaille-t-il ? | Au départ, tout ce qui part des sites de l’entreprise (ateliers, magasins) ou d’un fournisseur pour son compte ; une filiale s’ajoute ensuite site par site (le site devient un départ possible, ses utilisateurs reçoivent un rôle Vector dans Clavis). | Tout le groupe dès le départ ; l’entreprise seulement, sans extension prévue | L1 |
 
 ### Transition depuis Keystone
 
@@ -53,7 +54,7 @@ Aucune à ce jour (questionnaire à publier).
 | --- | --- | --- | --- | --- |
 | D-9 | Comment se fait le criblage sanctions des destinataires ? | Vérification manuelle tracée dans Vector (qui, quand, quelle liste, résultat, preuve dans Codex), refaite pour chaque nouvel destinataire et au plus tard tous les 6 mois ; la table des pays (embargo, restreint, surveillé) est tenue par le rôle Conformité. | Outil de criblage du groupe (à indiquer), Vector garde le résultat ; Pas de criblage (déconseillé) | L4 |
 | D-10 | Marchandises dangereuses : qui signe, et que voit Vigie ? | La déclaration est faite par une personne habilitée (titre lu plus tard dans Cursus) et référencée dans Vector ; toute expédition avec un n° ONU est signalée à Vigie (file d’envoi) ; un incident de transport de marchandises dangereuses ouvre un événement dans Vigie. | Rien vers Vigie, Vector seul ; Validation préalable obligatoire par le QHSE dans Vigie | L4 |
-| D-12 | Quels documents Vector génère-t-il ? | Liste de colisage, liste par conteneur, marques de colis, instructions d’expédition, CMR, VGM et facture proforma (valeur douane, jamais la facture comptable) ; gabarits génériques jusqu’aux modèles d’EPC2i ; tout est déposé dans Codex. | Les mêmes sans la facture proforma ; Aucun : seulement des références aux documents faits ailleurs | L4 |
+| D-12 | Quels documents Vector génère-t-il ? | Liste de colisage, liste par conteneur, marques de colis, instructions d’expédition, CMR, VGM et facture proforma (valeur douane, jamais la facture comptable) ; gabarits génériques jusqu’aux modèles de l’entreprise ; tout est déposé dans Codex. | Les mêmes sans la facture proforma ; Aucun : seulement des références aux documents faits ailleurs | L4 |
 | D-18 | Lettres de crédit : jusqu’où Vector les suit-il ? | Vector porte la LC de l’expédition (n°, banque, date limite d’expédition, validité, documents exigés et leurs mentions) et contrôle les dates et la liste ; la présentation à la banque reste à la trésorerie. | Rien dans Vector ; Vector prépare aussi le dossier de présentation à la banque | L4 |
 
 ### Coûts et performance
@@ -94,7 +95,7 @@ Aucune à ce jour (questionnaire à publier).
 | DA-5 | Standards d’emballage | Modèle docs/donnees/05-emballages.csv : caisses types, palettes, conteneurs, normes (HPE, NIMP 15). |
 | DA-6 | Pays : risques, embargos, accords d’origine | Modèle docs/donnees/06-pays.csv ; à valider par la conformité. |
 | DA-7 | Standards de coût et historique de 12 mois d’expéditions | Modèle docs/donnees/07-standards-couts.csv et 08-historique-expeditions.csv (tableur actuel) : estimation et indicateurs de départ. |
-| DA-8 | Modèles de documents d’EPC2i | Packing list, facture proforma, marques, instructions d’expédition actuels (fichiers à déposer dans Codex). |
+| DA-8 | Modèles de documents de l’entreprise | Packing list, facture proforma, marques, instructions d’expédition actuels (fichiers à déposer dans Codex). |
 
 ## 4. Choix faits sans demander (livraison 1)
 

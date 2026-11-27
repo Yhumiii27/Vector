@@ -1,5 +1,5 @@
 // Printable documents of Vector (docs/spec/03 § 3.2): packing list, package marks, proforma invoice, shipping instructions, CMR
-// data and VGM — generic layouts until EPC2i's formats (question D-12). Outside the app shell, printed or saved as PDF by the
+// data and VGM — generic layouts until the company's formats (question D-12). Outside the app shell, printed or saved as PDF by the
 // browser; the same rights as the shipment sheet (404 outside the viewer's scope; values only for the roles of U-2).
 import { notFound } from 'next/navigation';
 import { canSeeValues } from '@/domain/rights';
@@ -33,7 +33,7 @@ export default async function PrintPage({ params }: { params: Promise<{ code: st
         <div>{v.s.title}</div>
       </div>
       <dl className={p.meta}>
-        <dt>{t('Shipper')}</dt><dd>EPC2i · {from} ({v.s.fromCountry})</dd>
+        <dt>{t('Shipper')}</dt><dd>{from} ({v.s.fromCountry})</dd>
         <dt>{t('Consignee')}</dt><dd>{to} ({v.s.toCountry})</dd>
         <dt>{t('Mode')}</dt><dd>{t(MODE_LABEL[v.s.mode as Mode])} · {v.s.portOfLoading ?? ''} → {v.s.portOfDischarge ?? ''}</dd>
         <dt>{t('Incoterm')}</dt><dd>{v.s.incoterm} {v.s.incotermPlace}</dd>
@@ -88,7 +88,7 @@ export default async function PrintPage({ params }: { params: Promise<{ code: st
         </table>
       )}
       {k === 'vgm' && <p className={p.note}>{t('Verified gross mass (SOLAS): add the tare of each container before transmission to the carrier.')}</p>}
-      <footer className={p.foot}>{t('Generic layout, until the standard formats of EPC2i (question D-12). Filed in Codex once generated.')}</footer>
+      <footer className={p.foot}>{t('Generic layout, until the standard formats of the company (question D-12). Filed in Codex once generated.')}</footer>
     </main>
   );
 }

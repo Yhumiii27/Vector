@@ -16,8 +16,7 @@
     "worker": "tsx --conditions=react-server scripts/worker.ts",
     "backup": "tsx --conditions=react-server scripts/backup.ts",
     "restore": "tsx --conditions=react-server scripts/restore.ts",
-    "norma:check": "node norma/outils/norma.mjs verifier",
-    "questionnaire:page": "node norma/outils/questionnaire/build.mjs"
+    "norma:check": "node norma/outils/norma.mjs verifier"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

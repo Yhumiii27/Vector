@@ -38,11 +38,15 @@ award, booking and cut-offs, export customs and compliance (dual use, sanctions)
 - **Logo, Norma 2.3.0** (owner, 25 Nov 2026; `norma/charte/COQUE.md` § 8 bis): the brand of the sidebar and of the top bar is the
   charter's `ToolLogo code="vector"` (`@norma/charte/ds/ToolLogo`, 26 px, 20 px in the top bar), also on the pages outside the shell
   (sign-in…); the favicon is `src/app/icon.svg`, a copy of `norma/charte/logos/vector.svg` (checked by `src/app/icon.test.ts`).
-- Owner's answers: questionnaire built from `scripts/questionnaire/` by `node norma/outils/questionnaire/build.mjs`
-  (`.artifacts/decisions-vector.html`, to be published as an artifact); read its database (collection `answers`) before each
-  delivery and apply the answers to `docs/DECISIONS.md`.
+- **Atrium suite, Norma 3.1.0** (owner, 27 Nov 2026): the suite is called Atrium and no file names the company; the display
+  cookie is `atrium-theme`, read by `getTheme` through `themeFromCookies` (the former name still read when it is missing,
+  until Norma 4.0), only the new one written. The shared server's database and host come from `DATABASE_URL` only (today the
+  names of before the rename; database `atrium` on host `atrium-postgres` after Matrix's operation): nothing in Vector names them.
+- Owner's questions and answers (Norma 3.0, REGLES § 3): in Norma's `decisions/vector.json`, answered on the single page
+  « Suivi Atrium » https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf (collection `answers`); read before each delivery and
+  apply the answers to `docs/DECISIONS.md`. Vector's own questionnaire page (`scripts/questionnaire/`) is retired.
 - Remaining work: one list for the whole suite in Norma (`reste-a-faire/vector.json` in `Yhumiii27/Norma`), shown on the
-  global page https://claude.ai/artifact/Rs7kooJdowShdYUqNS8jQf; Vector keeps no list of its own.
+  same page; Vector keeps no list of its own.
 
 ## Rules specific to Vector
 
@@ -66,5 +70,4 @@ npm ci && npm run db:local && npm run db:migrate   # .env.local: see .env.exampl
 npx next typegen && npm run typecheck && npm run lint && npm test
 npm run dev                                         # http://localhost:3900 (demo: "View as")
 VECTOR_DIST_DIR=.next-ci npm run build && VECTOR_DIST_DIR=.next-ci npx next start --port 3910 & npm run test:smoke
-node norma/outils/questionnaire/build.mjs           # .artifacts/decisions-vector.html (owner's questionnaire)
 ```

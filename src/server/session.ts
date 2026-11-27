@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 import { cache } from 'react';
 import { isRoleKey, type RoleKey } from '@/config/roles';
 import { AUTH_PATHS } from '@/domain/auth';
-import { THEME_COOKIE, themeOf, type Theme } from '@norma/charte/ds/theme';
+import { themeFromCookies, type Theme } from '@norma/charte/ds/theme';
 import { DEFAULT_LANG, makeT, type Lang, type T } from '@/i18n/translate';
 import { authMode } from '@/server/auth/config';
 import { userByEmail } from '@/server/dal/users';
@@ -41,7 +41,11 @@ export const getLang = cache(async (): Promise<Lang> => {
   return v === 'en' || v === 'fr' ? v : DEFAULT_LANG;
 });
 
-export const getTheme = cache(async (): Promise<Theme> => themeOf((await cookies()).get(THEME_COOKIE)?.value));
+// Norma 3.0: `atrium-theme` first, the cookie of before Norma 3.0 read when it is missing (transition), only the new one written.
+export const getTheme = cache(async (): Promise<Theme> => {
+  const jar = await cookies();
+  return themeFromCookies((name) => jar.get(name)?.value);
+});
 
 export const getI18n = cache(async (): Promise<{ lang: Lang; t: T }> => {
   const lang = await getLang();

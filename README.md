@@ -1,6 +1,6 @@
 # Vector
 
-Outil du responsable des expéditions de la suite EPC2I (nom de travail) : demandes d'expédition, colisage, appels
+Outil du responsable des expéditions de la suite Atrium (nom de travail) : demandes d'expédition, colisage, appels
 d'offres aux transitaires, réservation, douane export et conformité, documents (dans Codex), suivi et ETA, incidents,
 coûts et performance des transporteurs.
 
