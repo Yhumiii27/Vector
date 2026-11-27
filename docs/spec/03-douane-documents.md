@@ -2,7 +2,7 @@
 
 ## 1. Douane export
 
-EPC2i n'est pas commissionnaire en douane : Vector **prépare** les données et **suit** la déclaration faite par le
+L'entreprise n'est pas commissionnaire en douane : Vector **prépare** les données et **suit** la déclaration faite par le
 transitaire ou le commissionnaire (DELTA G / DELTA X en France, système de l'État membre de sortie ailleurs).
 
 | Donnée | Règle |
@@ -76,6 +76,6 @@ la validité de la LC ; écarts signalés.
 
 Vector génère en PDF (sans dépendance au départ, comme l'écrivain PDF d'Arche, ou `pdf-lib` autorisée par Norma) : liste
 de colisage, facture proforma, marques de colis, instructions d'expédition, CMR, VGM. Gabarits génériques en attendant
-les modèles d'EPC2i (`D-12`). Le dépôt passe par `POST /api/documents` de Codex (file d'envoi `codex_outbox`, envoyé par
+les modèles de l'entreprise (`D-12`). Le dépôt passe par `POST /api/documents` de Codex (file d'envoi `codex_outbox`, envoyé par
 une tâche ; Vector garde l'identifiant rendu) ; type documentaire proposé `SHP` (déjà ajouté par Keystone à son registre,
 à créer côté Codex : demande DC-1).

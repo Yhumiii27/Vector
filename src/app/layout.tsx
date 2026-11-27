@@ -9,13 +9,13 @@ import { getLang, getTheme } from '@/server/session';
 
 export const metadata: Metadata = {
   title: 'Vector',
-  description: 'Vector — domestic and international shipments of the EPC2I group',
+  description: 'Vector — domestic and international shipments of the Atrium suite',
 };
 
 export default async function RootLayout({ children }: LayoutProps<'/'>) {
   const [lang, theme] = await Promise.all([getLang(), getTheme()]);
   return (
-    // The display theme (Norma: cookie epc2i-theme, dark by default) is set at render, so the page never flashes.
+    // The display theme (Norma: cookie atrium-theme, the former name read as a fallback, dark by default) is set at render, so the page never flashes.
     <html lang={lang} data-theme={theme} className={interClassName}>
       <body>
         <I18nProvider lang={lang}>{children}</I18nProvider>

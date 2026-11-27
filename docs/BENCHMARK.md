@@ -5,7 +5,7 @@
 > souvent. Les fonctions citées sont celles connues publiquement ; elles sont à confirmer par une démonstration si l'une de
 > ces offres est envisagée à la place de Vector ou à côté.
 
-## 1. Le besoin d'EPC2i, en une phrase
+## 1. Le besoin de l'entreprise, en une phrase
 
 Expédier depuis les ateliers et fournisseurs d'Europe vers des sites miniers du monde entier (Afrique, Amérique du Sud,
 Australie, Moyen-Orient…) : des **machines** (unités mobiles, modules de production, souvent hors gabarit), des **caisses**
@@ -21,23 +21,23 @@ profil de **logistique de projet** (« project cargo ») plus que de distributio
 
 ## 2. Familles d'outils
 
-| Famille | Exemples | Ce qu'ils font bien | Limite pour EPC2i |
+| Famille | Exemples | Ce qu'ils font bien | Limite pour l'entreprise |
 | --- | --- | --- | --- |
-| **TMS d'entreprise** | SAP TM, Oracle OTM (Transportation Management), Descartes (TMS, routage) | planification et optimisation de flux réguliers, appels d'offres de fret annuels, facturation et rapprochement fret, multi-modes, intégration ERP | lourds à déployer, pensés pour des flux répétitifs ; ERP SAP / Oracle supposé (EPC2i est sur Sage) |
+| **TMS d'entreprise** | SAP TM, Oracle OTM (Transportation Management), Descartes (TMS, routage) | planification et optimisation de flux réguliers, appels d'offres de fret annuels, facturation et rapprochement fret, multi-modes, intégration ERP | lourds à déployer, pensés pour des flux répétitifs ; ERP SAP / Oracle supposé (l'entreprise est sur Sage) |
 | **Bourses et plateformes de fret routier** | Alpega (Teleroute, Wtransnet), Transporeon (plateforme d'appels d'offres et de réservation de créneaux) | mise en concurrence des transporteurs routiers, réservation de quais, suivi | routier européen surtout ; peu pour le maritime projet |
 | **Visibilité temps réel** | project44, Shippeo, FourKites | ETA prédictive, suivi multi-transporteurs par API / télématique, alertes de retard, ports et navires | abonnement par volume, l'intérêt dépend de transporteurs connectés ; peu utile pour du breakbulk vers un port africain sans données |
-| **Transitaire / commissionnaire et douane** | CargoWise (WiseTech), Descartes Customs, Conex (logiciel de dédouanement), DELTA G / DELTA X (téléprocédures de la douane française), ICS2 (sûreté import UE) | dossier d'expédition complet côté transitaire, dédouanement, connaissements, taxes | ce sont les outils **du transitaire** : EPC2i n'est pas commissionnaire en douane ; elle a besoin d'en suivre le résultat (MRN, EX-A, bon à enlever) |
+| **Transitaire / commissionnaire et douane** | CargoWise (WiseTech), Descartes Customs, Conex (logiciel de dédouanement), DELTA G / DELTA X (téléprocédures de la douane française), ICS2 (sûreté import UE) | dossier d'expédition complet côté transitaire, dédouanement, connaissements, taxes | ce sont les outils **du transitaire** : l'entreprise n'est pas commissionnaire en douane ; elle a besoin d'en suivre le résultat (MRN, EX-A, bon à enlever) |
 | **Multi-transporteurs colis** | Sendcloud, Boxtal, ShipStation | étiquettes, comparaison de tarifs colis et express, suivi, retours | parfait pour la pièce urgente de < 70 kg ; rien pour une caisse de 8 t |
 | **Places de marché de cotation** | Freightos (et sa plateforme WebCargo pour l'aérien) | cotation instantanée conteneur et aérien, réservation en ligne | tarifs spot standard ; pas de hors gabarit, pas de site minier en bout de chaîne |
-| **Colisage et emballage** | logiciels de calcul de chargement (empotage 3D de conteneurs), outils des emballeurs industriels | plan d'empotage, taux de remplissage, centre de gravité | souvent un outil à part chez l'emballeur ; EPC2i a besoin du résultat (poids, dimensions, plan) |
+| **Colisage et emballage** | logiciels de calcul de chargement (empotage 3D de conteneurs), outils des emballeurs industriels | plan d'empotage, taux de remplissage, centre de gravité | souvent un outil à part chez l'emballeur ; l'entreprise a besoin du résultat (poids, dimensions, plan) |
 | **Marchandises dangereuses** | modules DG des TMS, logiciels de rédaction de déclarations (DGD, déclaration IMDG, Shipper's Declaration IATA) | contrôle de compatibilité, ségrégation, marquage, documents | réservé à des déclarants formés ; à cadrer avec le conseiller à la sécurité (CSTMD) et Vigie |
 
 ## 3. Matrice des fonctions
 
-Légende : ● cœur de l'offre · ◐ partiel ou module · — absent ou hors sujet. Colonne « EPC2i » : pertinence pour le besoin
+Légende : ● cœur de l'offre · ◐ partiel ou module · — absent ou hors sujet. Colonne « Entreprise » : pertinence pour le besoin
 du § 1 (★★★ indispensable, ★★ utile, ★ plus tard, — non).
 
-| Fonction | TMS (SAP TM, OTM, Descartes) | Plateformes (Alpega, Transporeon) | Visibilité (project44, Shippeo, FourKites) | Transitaire / douane (CargoWise, Conex, DELTA) | Colis (Sendcloud, Boxtal, ShipStation) | Cotation (Freightos) | EPC2i | Dans Vector |
+| Fonction | TMS (SAP TM, OTM, Descartes) | Plateformes (Alpega, Transporeon) | Visibilité (project44, Shippeo, FourKites) | Transitaire / douane (CargoWise, Conex, DELTA) | Colis (Sendcloud, Boxtal, ShipStation) | Cotation (Freightos) | Entreprise | Dans Vector |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Demande d'expédition depuis un projet, une commande, une pièce | ◐ (depuis l'ERP) | — | — | ◐ | ◐ | — | ★★★ | L2 |
 | Colisage : caisses, dimensions, poids, volume, contenu | ● | — | — | ● | ◐ | ◐ | ★★★ | L2 |
@@ -72,7 +72,7 @@ du § 1 (★★★ indispensable, ★★ utile, ★ plus tard, — non).
 
 1. **Logistique de projet, pas distribution.** L'optimisation de tournées et les grilles tarifaires annuelles des TMS ne
    servent pas ; la mise en concurrence ponctuelle (RFQ) d'un transitaire par expédition, si.
-2. **EPC2i n'est pas transitaire.** Vector ne télédéclare pas (DELTA G / DELTA X, ICS2) : il prépare les données (SH,
+2. **L'entreprise n'est pas transitaire.** Vector ne télédéclare pas (DELTA G / DELTA X, ICS2) : il prépare les données (SH,
    origine, valeur, poids), les remet au transitaire et **suit** le résultat (MRN, EX-A, bon à embarquer). C'est le
    partage habituel avec un commissionnaire en douane.
 3. **La caisse est l'objet central.** Dimensions, poids brut / net, contenu, SH, origine, valeur, marques : tout le reste

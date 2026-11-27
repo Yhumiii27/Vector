@@ -1,19 +1,20 @@
-// Dark / light display (Norma 1.0) and the common shell (Norma 2.0, norma/charte/COQUE.md § 4): the cookie epc2i-theme gives
-// the theme the server puts on <html data-theme>, dark by default; the language / display pair (PrefsStack: FR | EN over
-// dark | light) is the last element of every page header and of the top bar, nowhere else.
+// Dark / light display (Norma 1.0, cookie atrium-theme since Norma 3.0, the former name still read when it is missing) and
+// the common shell (Norma 2.0, norma/charte/COQUE.md § 4): the cookie gives the theme the server puts on <html data-theme>,
+// dark by default; the language / display pair (PrefsStack: FR | EN over dark | light) is the last element of every page
+// header and of the top bar, nowhere else.
 import fs from 'node:fs';
 import path from 'node:path';
 import { createElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
-import { DEFAULT_THEME, THEME_COOKIE, themeCookie, themeOf } from '@norma/charte/ds/theme';
+import { DEFAULT_THEME, LEGACY_THEME_COOKIE, THEME_COOKIE, themeCookie, themeFromCookies, themeOf } from '@norma/charte/ds/theme';
 import { I18nProvider } from '@/i18n/client';
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/', useRouter: () => ({ refresh: vi.fn(), push: vi.fn() }) }));
 
 describe('display theme', () => {
   it('reads the shared cookie: light only when it says so, dark otherwise', () => {
-    expect(THEME_COOKIE).toBe('epc2i-theme');
+    expect(THEME_COOKIE).toBe('atrium-theme');
     expect(DEFAULT_THEME).toBe('dark');
     expect(themeOf('light')).toBe('light');
     expect(themeOf('dark')).toBe('dark');
@@ -23,7 +24,20 @@ describe('display theme', () => {
   });
 
   it('writes a one-year cookie for the whole site', () => {
-    expect(themeCookie('light')).toBe('epc2i-theme=light; path=/; max-age=31536000; samesite=lax');
+    expect(themeCookie('light')).toBe('atrium-theme=light; path=/; max-age=31536000; samesite=lax');
+  });
+
+  it('reads the new cookie first, the former name only when the new one is missing', () => {
+    const jar = (c: Record<string, string>) => (n: string) => c[n];
+    expect(themeFromCookies(jar({ 'atrium-theme': 'light' }))).toBe('light');
+    expect(themeFromCookies(jar({ [LEGACY_THEME_COOKIE]: 'light' }))).toBe('light');
+    expect(themeFromCookies(jar({ 'atrium-theme': 'dark', [LEGACY_THEME_COOKIE]: 'light' }))).toBe('dark');
+    expect(themeFromCookies(jar({}))).toBe('dark');
+  });
+
+  it('the server reads the theme through themeFromCookies', () => {
+    const session = fs.readFileSync(path.join(process.cwd(), 'src/server/session.ts'), 'utf8');
+    expect(session).toContain('themeFromCookies(');
   });
 });
 

@@ -1,6 +1,6 @@
 # Continuous integration (derived from Keystone's, R-016): on every pull request and every push to main — install, route
 # types, typecheck, lint, unit tests on a real PostgreSQL 16 (Vector runs on PostgreSQL only: each test file creates its own
-# database), the migration and the demo seed of a schema shaped like the shared EPC2I server (`npm run db:local`), the
+# database), the migration and the demo seed of a schema shaped like the shared Atrium server (`npm run db:local`), the
 # production build, then the smoke test against `next start`. 
 name: CI
 

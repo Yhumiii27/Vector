@@ -1,4 +1,4 @@
-// Matrix (the EPC2I data catalogue): Vector declares its database schema after its migrations and when a server starts
+// Matrix (the Atrium data catalogue): Vector declares its database schema after its migrations and when a server starts
 // (contract matrix.schema/1, ./declare-schema.ts; copied from Keystone). Matrix accepts `app: "vector"` once its server lists
 // Vector (docs/DEMANDES-MATRIX.md M-8). Send-only: no mirror, no outbox, no screen.
 import { log as appLog } from '@/server/log';

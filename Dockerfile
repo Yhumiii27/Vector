@@ -4,7 +4,7 @@
 #   migration  : npm run db:migrate   (before the new version starts; VECTOR_SEED explicit on an empty schema)
 #   job worker : npm run worker       (backups when VECTOR_BACKUP_DIR is set, daily declaration to Matrix)
 #   backups    : npm run backup / npm run restore -- <file> --yes (pg_dump / pg_restore 16 are installed below)
-# Vector runs on PostgreSQL only: DATABASE_URL is a runtime variable (the shared EPC2I server, schema `vector`, role vector_app).
+# Vector runs on PostgreSQL only: DATABASE_URL is a runtime variable (the shared Atrium server, schema `vector`, role vector_app).
 # Coolify: a "Dockerfile" resource with VECTOR_SINGLE_CONTAINER=on (deploy/start.sh), behind Coolify's HTTP basic auth.
 FROM node:22-bookworm-slim
 

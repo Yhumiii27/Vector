@@ -321,7 +321,7 @@
  "Seal": "Plomb",
  "Cargo gross weight": "Poids brut de la marchandise",
  "Verified gross mass (SOLAS): add the tare of each container before transmission to the carrier.": "Masse brute vérifiée (SOLAS) : ajouter la tare de chaque conteneur avant transmission au transporteur.",
- "Generic layout, until the standard formats of EPC2i (question D-12). Filed in Codex once generated.": "Mise en page générique, en attendant les formats d’EPC2i (question D-12). Déposé dans Codex une fois généré.",
+ "Generic layout, until the standard formats of the company (question D-12). Filed in Codex once generated.": "Mise en page générique, en attendant les formats de l’entreprise (question D-12). Déposé dans Codex une fois généré.",
  "Vector uses the group sign-in (Clavis). Your rights are those IT grants you in Clavis.": "Vector utilise la connexion du groupe (Clavis). Vos droits sont ceux que la DSI vous accorde dans Clavis.",
  "Sign in with Clavis": "Se connecter avec Clavis",
  "Language": "Langue",
